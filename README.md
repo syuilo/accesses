@@ -21,6 +21,8 @@ const express = require('express');
 const accesses = require('accesses');
 
 const app = express();
+
+// Register accesses middleware
 app.use(accesses.express({
 	appName: 'My Web Service',
 	port: 616
@@ -31,9 +33,8 @@ app.get('/', (req, res) => {
 });
 
 app.listen(80);
-
-// Now, we can monitor an accesses in localhost:616
 ```
+Now, we can monitor an accesses in localhost:616
 
 ## TODO
 * express以外のフレームワークにも対応
