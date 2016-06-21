@@ -1,0 +1,321 @@
+$header-height = calc(1rem + 16px)
+
+@charset "utf-8"
+
+@import 'https://fonts.googleapis.com/css?family=Roboto+Mono'
+
+*
+	-webkit-user-select none
+	-moz-user-select none
+	-ms-user-select none
+	user-select none
+	cursor default
+	font-family 'Roboto Mono', monospace
+
+html, body
+	margin 0
+	padding 0
+	color #fff
+	background #000
+
+body
+	-webkit-text-size-adjust 100%
+	padding-top $header-height
+
+header
+	display block
+	position fixed
+	z-index 1024
+	top 0
+	left 0
+	height $header-height
+	width 100%
+	font-size 0.8em
+	background #000
+
+	left, right
+		height $header-height
+		background inherit
+		white-space nowrap
+
+		> *
+			display inline-block
+			line-height $header-height
+
+		p
+			margin 0
+			padding 0
+
+	left
+		position absolute
+		left 0
+
+	right
+		position absolute
+		right 0
+
+	actions
+		border-left solid 1px #222
+
+		> *
+			display inline-block
+			line-height $header-height
+
+		button, a
+			-webkit-appearance none
+			-moz-appearance none
+			appearance none
+			user-select none
+			-moz-user-select none
+			-webkit-user-select none
+			-ms-user-select none
+			cursor pointer
+			padding 0 12px
+			margin 0
+			font-size 1em
+			text-decoration none
+			color #ddd
+			outline none
+			border none
+			border-right solid 1px #111
+			border-radius 0
+			box-shadow none
+			background transparent
+			transition all .3s ease
+
+			*
+				pointer-events none
+
+			> i
+				margin-right 4px
+
+			&:hover
+				color #fff
+				transition all 0.1s ease
+
+			&:active
+				transition all 0s ease
+
+	#title
+		padding 0 12px
+		font-weight bold
+		color #b4cc7e
+		border-right solid 1px #222
+
+	machine
+		padding 0 12px
+		border-right solid 1px #222
+
+		&:before
+			content "MACHINE:"
+			color #eee
+			margin-right 4px
+
+	pid
+		padding 0 12px
+		color #ccc
+		border-right solid 1px #222
+
+		&:before
+			content "PID:"
+			margin-right 4px
+
+	uptime
+		padding 0 12px
+		min-width 12em
+		color #ccc
+		border-right solid 1px #222
+
+		&:before
+			content "UPTIME:"
+			margin-right 4px
+
+		&:after
+			content "s"
+
+	#now
+		padding 0 12px
+		color #f0f0f0
+		border-right solid 1px #222
+
+		&:before
+			content "\f017"
+			font-family FontAwesome
+			margin-right 6px
+
+		.yyyymmdd
+			margin-right 6px
+
+	#follow
+		color #fff
+		transition all .3s ease
+
+		> i
+			margin-right 4px
+
+		&.enable
+			color #c1e31c
+
+			&:hover
+				color lighten(#c1e31c, 30%)
+				transition all 0.1s ease
+
+			&:active
+				color darken(#c1e31c, 20%)
+				transition all 0s ease
+
+	#rec
+		color #fff
+		background #000
+		transition all .3s ease
+
+		&:hover
+			background #111
+			transition all 0.1s ease
+
+		&:active
+			background #222
+			transition all 0s ease
+
+		&.enable
+			color #fff
+			background #f00
+
+			&:hover
+				background #f22
+
+			&:active
+				background #e00
+
+		> i
+			margin-right 4px
+
+#logs
+	width 100%
+	border-collapse collapse
+	table-layout fixed
+
+	[data-column='date']
+		width 8%
+
+	[data-column='method']
+		width 4%
+
+	[data-column='host']
+		width 12%
+
+	[data-column='path']
+		width 22%
+
+	[data-column='ua']
+		width 37%
+
+	[data-column='ip']
+		width 10%
+
+	[data-column='worker']
+		width 7%
+
+	> thead
+		display block
+		position fixed
+		z-index 1
+		top $header-height
+		left 0
+		width 100%
+		font-size 0.8em
+		background #222
+
+		&.dragging > tr > th:not(.chosen)
+			background transparent !important
+
+		> tr
+			display block
+			position relative
+			width 100%
+
+			> th
+				display inline-block
+				position relative
+				box-sizing border-box
+				padding 6px 12px
+				text-align left
+				word-wrap break-word
+				white-space nowrap
+				text-overflow ellipsis
+				outline none
+				overflow hidden
+
+				&:hover
+					background #333
+
+				&.chosen
+					background #f33
+
+				&:after
+					font-family FontAwesome
+					display block
+					position absolute
+					top 0
+					right 8px
+					bottom 0
+					margin auto
+					height 1em
+
+				&.desc
+					&:after
+						content "\f106"
+
+				&.asc
+					&:after
+						content "\f107"
+
+	> tbody
+		display block
+		font-size 0.8em
+
+		> tr
+			display block
+			position relative
+			margin 0
+			padding 2px 0
+			width 100%
+			cursor default
+
+			&:nth-child(even)
+				background rgba(255, 255, 255, 0.05)
+
+			&:hover
+				background rgba(255, 255, 255, 0.1)
+
+			&:focus
+				background #02d7e1
+				outline none
+
+				&, *
+					color #000 !important
+
+			> td
+				display inline-block
+				box-sizing border-box
+				padding 4px 12px
+				word-wrap break-word
+				white-space nowrap
+				text-overflow ellipsis
+				overflow hidden
+
+				&[data-column='date']
+					color rgba(#fff, 0.5)
+
+				&[data-column='host']
+					color #008080
+
+				&[data-column='ua']
+					color rgba(#fff, 0.7)
+
+				&[data-column='worker']
+					color rgba(#fff, 0.5)
+
+@media (max-width: 800px)
+	html
+		font-size 0.5em

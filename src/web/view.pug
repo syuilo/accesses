@@ -1,0 +1,50 @@
+doctype html
+
+html(dir='ltr')
+	head
+		meta(charset='utf-8')
+		meta(name='application-name', content= appName)
+		meta(name='viewport', content='width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no')
+		title= 'Log of ' + appName
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='/style')
+		script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js')
+		script(src='/socket.io/socket.io.js')
+		script(src='/script')
+
+	body
+		header
+			left
+				p#title= appName
+				machine
+				pid
+				uptime
+				time#now(datetime= Date.now())
+					span.yyyymmdd
+					span.hhmmss
+			right
+				actions
+					a#export(href='#')
+						i.fa.fa-download
+						| Export
+					button#clear
+						i.fa.fa-times
+						| Clear
+					button.enable#follow
+						i.fa.fa-sort-amount-desc
+						| Follow
+					button.enable#rec
+						i.fa.fa-pause
+						| REC
+		table#logs
+			thead: tr
+				th(data-column='date') Requested At
+				th(data-column='method') Method
+				th(data-column='host') Host
+				th(data-column='path') Path
+				th(data-column='ua') User-Agent
+				th(data-column='ip') Remote Addr
+				th(data-column='worker') Worker
+			tbody

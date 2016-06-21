@@ -1,0 +1,35 @@
+{
+  "name": "accesses",
+  "version": "0.0.0",
+  "description": "Web accesses logger",
+  "keywords": [
+    "logger"
+  ],
+  "author": "syuilo",
+  "license": "MIT",
+  "repository": "https://github.com/syuilo/accesses.git",
+  "bugs": "https://github.com/syuilo/accesses/issues",
+  "main": "./built/index.js",
+  "devDependencies": {
+    "dtsm": "1.1.0",
+    "gulp": "3.9.1",
+    "gulp-livescript": "3.0.1",
+    "gulp-stylus": "2.4.0",
+    "gulp-tslint": "5.0.0",
+    "gulp-typescript": "2.13.6",
+    "livescript": "1.5.0",
+    "merge2": "1.0.2",
+    "tslint": "3.11.0",
+    "typescript": "1.8.10"
+  },
+  "dependencies": {
+    "colors": "1.1.2",
+    "express": "4.14.0",
+    "node-ipc": "7.0.0",
+    "pug": "2.0.0-beta3",
+    "seed-color": "^0.1.2",
+    "seedrandom": "2.4.2",
+    "socket.io": "1.4.6"
+  },
+  "private": false
+}
