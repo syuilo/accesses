@@ -35,6 +35,12 @@ app.listen(80);
 // Now, we can monitor an accesses in localhost:616
 ```
 
+## TODO
+* express以外のフレームワークにも対応
+* ログを任意のデータベースにストアできるように
+* フロントエンドの依存関係をnpmかbowerで管理
+* アクセスの要認証機能
+
 ## License
 [MIT](LICENSE)
 
