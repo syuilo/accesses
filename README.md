@@ -14,7 +14,7 @@ access logger
 $ npm install accesses --save
 ```
 
-## Useage
+## Usage
 ### With express
 ``` javascript
 const express = require('express');
