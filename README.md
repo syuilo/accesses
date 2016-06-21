@@ -38,6 +38,9 @@ app.listen(80);
 ## License
 [MIT](LICENSE)
 
+## 余談
+monicaって名前にしようと思ってたけどすでにnpmにあったのでaccessesにしました。
+
 [npm-link]:        https://www.npmjs.com/package/accesses
 [npm-badge]:       https://img.shields.io/npm/v/accesses.svg?style=flat-square
 [mit]:             http://opensource.org/licenses/MIT
