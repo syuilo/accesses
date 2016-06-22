@@ -1,12 +1,6 @@
 //////////////////////////////////////////////////
-// MISSKEY-WEB-LOGGER
+// ACCESSES
 //////////////////////////////////////////////////
-
-import * as os from 'os';
-import * as cluster from 'cluster';
-import seedColor from 'seed-color';
-import Options from './options';
-import server from './web/index';
 
 /**
  * The MIT License (MIT)
@@ -32,79 +26,8 @@ import server from './web/index';
  * SOFTWARE.
  */
 
-const getInfo = () => {
-	return {
-		machine: os.hostname(),
-		pid: process.pid,
-		uptime: process.uptime()
-	};
-};
-
-const serve = (options: Options) => {
-	if (cluster.isWorker) {
-		return null;
-	}
-
-	for (let id in cluster.workers) {
-		attach(cluster.workers[id]);
-	}
-
-	// Listen new workers
-	cluster.on('fork', attach);
-
-	const io = server(options);
-
-	io.on('connection', socket => {
-		socket.emit('info', getInfo());
-	});
-
-	setInterval(() => {
-		io.emit('info', getInfo());
-	}, 1000);
-
-	return log;
-
-	function attach(worker: cluster.Worker): void {
-		worker.on('message', (msg: any) => {
-			log(msg);
-		});
-	}
-
-	function log(data: any): void {
-		io.emit('log', data);
-	}
-};
+import express from './drivers/express';
 
 export = {
-	serve,
-
-	express: (options: Options): any => {
-		const publish = serve(options);
-
-		return (req: any, res: any, next: any) => {
-			next();
-
-			const color = seedColor(req.ip);
-
-			const log = {
-				ip: req.ip,
-				method: req.method,
-				host: req.hostname,
-				path: req.path,
-				ua: req.headers['user-agent'],
-				date: Date.now(),
-				worker: cluster.isMaster ? 'master' : cluster.worker.id,
-				color: {
-					bg: color.toHex(),
-					fg: color.getForegroundColor().toHex()
-				}
-			};
-
-			if (cluster.isMaster) {
-				publish(log);
-			} else {
-				process.send(log);
-			}
-		};
-	}
+	express
 };

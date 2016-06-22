@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "express/express.d.ts": {
-      "ref": "1315d46f8066eec8c197914da88e98629ebc2254"
+      "ref": "830e4aaac859e4f648efaa16712f1d6e378e6902"
     },
     "socket.io/socket.io.d.ts": {
-      "ref": "1315d46f8066eec8c197914da88e98629ebc2254"
+      "ref": "830e4aaac859e4f648efaa16712f1d6e378e6902"
+    },
+    "koa/koa.d.ts": {
+      "ref": "830586ef556be5244f3711587b0c774ddfd959c4"
     }
   }
 }

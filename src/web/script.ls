@@ -92,13 +92,13 @@ function add-log(data)
 	$head = $table.children \thead
 
 	$tr = $ "<tr tabindex=0>
-		<td data-column='date'>#{date}</td>
-		<td data-column='method' style='color:#{method-color};'>#{method}</td>
-		<td data-column='host'>#{host}</td>
-		<td data-column='path'>#{path}</td>
-		<td data-column='ua'>#{ua}</td>
-		<td data-column='ip'><ip style='background:#{color.bg};color:#{color.fg} !important;'>#{ip}</ip></td>
-		<td data-column='worker'>(#{worker})</td>
+		<td data-column='date' title='#{date}'>#{date}</td>
+		<td data-column='method' title='#{method}' style='color:#{method-color};'>#{method}</td>
+		<td data-column='host' title='#{host}'>#{host}</td>
+		<td data-column='path' title='#{path}'>#{path}</td>
+		<td data-column='ua' title='#{ua}'>#{ua}</td>
+		<td data-column='ip' title='#{ip}'><ip style='background:#{color.bg};color:#{color.fg} !important;'>#{ip}</ip></td>
+		<td data-column='worker' title='#{worker}'>(#{worker})</td>
 	</tr>"
 
 	columns = []
