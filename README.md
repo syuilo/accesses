@@ -53,7 +53,7 @@ if (cluster.isMaster) {
 		cluster.fork();
 	}
 
-	// Setup accesses from master process
+	// Setup accesses from master proccess
 	accesses.serve({
 		appName: 'My Web Service',
 		port: 616
