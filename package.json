@@ -1,9 +1,9 @@
 {
   "name": "accesses",
   "version": "0.3.0",
-  "description": "Web accesses logger",
+  "description": "Graphical accesses logger",
   "keywords": [
-    "logger"
+    "logging"
   ],
   "author": "syuilo",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "express": "4.14.0",
     "node-ipc": "7.0.0",
     "pug": "2.0.0-beta3",
-    "seed-color": "^0.1.2",
+    "seed-color": "0.1.2",
     "seedrandom": "2.4.2",
     "socket.io": "1.4.6"
   },
