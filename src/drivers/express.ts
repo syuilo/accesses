@@ -2,13 +2,10 @@
 import express = require('express');
 
 import * as cluster from 'cluster';
-import Options from '../options';
-import serve from '../serve';
+import driver from '../driver';
 
-export default (options: Options): any => {
-	const publish = serve(options);
-
-	return (req: express.Request, res: express.Response, next: any) => {
+export default driver(publish =>
+	(req: express.Request, res: express.Response, next: any) => {
 		next();
 
 		publish({
@@ -20,5 +17,5 @@ export default (options: Options): any => {
 			date: new Date(Date.now()),
 			worker: cluster.isMaster ? 'master' : cluster.worker.id
 		});
-	};
-};
+	}
+);

@@ -26,8 +26,10 @@
  * SOFTWARE.
  */
 
+import serve from './serve';
 import express from './drivers/express';
 
 export = {
+	serve,
 	express
 };

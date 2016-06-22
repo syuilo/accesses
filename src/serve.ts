@@ -15,16 +15,7 @@ const getInfo = () => {
 
 export default (options: Options) => {
 	if (cluster.isWorker) {
-		return (log: Log) => {
-			process.send({
-				type: 'log',
-				data: log
-			});
-		};
-	}
-
-	for (let id in cluster.workers) {
-		attach(cluster.workers[id]);
+		throw 'accesses.serve() can be call from master process only.';
 	}
 
 	// Listen new workers

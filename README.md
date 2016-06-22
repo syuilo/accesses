@@ -16,6 +16,7 @@ $ npm install accesses --save
 
 ## Usage
 ### With express
+#### Basic
 ``` javascript
 const express = require('express');
 const accesses = require('accesses');
@@ -34,6 +35,45 @@ app.get('/', (req, res) => {
 
 app.listen(80);
 ```
+
+#### Cluster
+``` javascript
+const cluster = require('cluster');
+
+const express = require('express');
+const accesses = require('accesses');
+
+// Master
+if (cluster.isMaster) {
+	// Count the machine's CPUs
+	const cpuCount = require('os').cpus().length;
+
+	// Create a worker for each CPU
+	for (let i = 0; i < cpuCount; i++) {
+		cluster.fork();
+	}
+
+	// Setup accesses from master process
+	accesses.serve({
+		appName: 'My Web Service',
+		port: 616
+	});
+}
+// Workers
+else {
+	const app = express();
+
+	// Register accesses middleware
+	app.use(accesses.express());
+
+	app.get('/', (req, res) => {
+		res.send('yeah');
+	});
+
+	app.listen(80);
+}
+```
+
 Now, we can monitor an accesses in localhost:616
 
 ## TODO

@@ -25,6 +25,7 @@
 	"files": [
 		"./node_modules/typescript/lib/lib.es6.d.ts",
 		"./typings/bundle.d.ts",
+		"./src/driver.ts",
 		"./src/drivers/express.ts",
 		"./src/drivers/koa.ts",
 		"./src/index.ts",
