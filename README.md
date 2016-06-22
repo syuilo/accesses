@@ -43,6 +43,7 @@ Now, we can monitor an accesses in localhost:616
 * アクセスの要認証機能
 * テーブルのカラムによるソート
 * カラムの幅を調整できるように
+* ログのダブルクリックで詳細
 
 ## License
 [MIT](LICENSE)
