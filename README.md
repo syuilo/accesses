@@ -7,7 +7,7 @@
 [![][david-dev-badge]][david-dev-link]
 [![][mit-badge]][mit]
 
-A graphocal access logger.
+A graphical access logger.
 
 ![](./capture.png)
 
