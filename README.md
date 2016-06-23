@@ -1,4 +1,4 @@
-![accesses](./accesses.svg)
+![accesses](./accesses.png)
 ---------------------------------------------
 
 [![][npm-badge]][npm-link]
