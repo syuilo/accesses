@@ -84,6 +84,18 @@ else {
 
 Now, we can monitor an accesses in localhost:616
 
+## Reference
+### options
+| Property | Type   | Description                      |
+| -------- | ------ | -------------------------------- |
+| appName  | string | Your app name                    |
+| port     | number | Port number that you want listen |
+
+### accesses.serve(options)
+[NEED TRANSLATE]
+accesses を初期化します。Cluster上で動いている場合のみ利用します。
+注: このメソッドはマスタープロセスで呼び出してください。
+
 ## TODO
 * express以外のフレームワークにも対応
 * ログを任意のデータベースにストアできるように
