@@ -7,6 +7,8 @@
 [![][david-dev-badge]][david-dev-link]
 [![][mit-badge]][mit]
 
+[![NPM](https://nodei.co/npm/accesses.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/accesses/)
+
 A graphical access logger.
 
 ![](./capture.png)
