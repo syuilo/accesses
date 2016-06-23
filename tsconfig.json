@@ -25,10 +25,12 @@
 	"files": [
 		"./node_modules/typescript/lib/lib.es6.d.ts",
 		"./typings/bundle.d.ts",
+		"./src/access.ts",
 		"./src/driver.ts",
 		"./src/drivers/express.ts",
 		"./src/drivers/koa.ts",
 		"./src/index.ts",
+		"./src/log-builder.ts",
 		"./src/log.ts",
 		"./src/options.ts",
 		"./src/serve.ts",

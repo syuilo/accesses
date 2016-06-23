@@ -1,6 +1,6 @@
 import * as cluster from 'cluster';
 import Options from './options';
-import Log from './log';
+import Access from './access';
 import serve from './serve';
 
 export default (handler: (log: any) => any): any => (options?: Options) => {
@@ -8,10 +8,10 @@ export default (handler: (log: any) => any): any => (options?: Options) => {
 		throw 'options is required.';
 	}
 
-	const publish = cluster.isMaster ? serve(options) : (log: Log) => {
+	const publish = cluster.isMaster ? serve(options) : (access: Access) => {
 		process.send({
-			type: 'log',
-			data: log
+			type: 'access',
+			data: access
 		});
 	};
 

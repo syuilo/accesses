@@ -6,10 +6,6 @@ type Log = {
 	ua: string;
 	date: Date;
 	worker: string;
-	color: {
-		bg: string;
-		fg: string;
-	};
 }
 
 export default Log;

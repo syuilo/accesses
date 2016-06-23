@@ -1,8 +1,8 @@
 import * as os from 'os';
 import * as cluster from 'cluster';
-import seedColor from 'seed-color';
 import Options from './options';
-import Log from './log';
+import Access from './access';
+import build from './log-builder';
 import server from './web/index';
 
 const getInfo = () => {
@@ -36,7 +36,7 @@ export default (options: Options) => {
 	function attach(worker: cluster.Worker): void {
 		worker.on('message', (msg: any) => {
 			switch (msg.type) {
-				case 'log':
+				case 'access':
 					publish(msg.data);
 					break;
 				default:
@@ -45,14 +45,7 @@ export default (options: Options) => {
 		});
 	}
 
-	function publish(log: Log): void {
-		const color = seedColor(log.ip);
-
-		io.emit('log', Object.assign({}, log, {
-			color: {
-				bg: color.toHex(),
-				fg: color.getForegroundColor().toHex()
-			}
-		}));
+	function publish(access: Access): void {
+		io.emit('log', build(access));
 	}
 };
