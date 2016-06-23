@@ -106,6 +106,7 @@ accesses を初期化します。Cluster上で動いている場合のみ利用�
 * テーブルのカラムによるソート
 * カラムの幅を調整できるように
 * ログのダブルクリックで詳細
+* アクセス解析 (such as GoogleAnalytics)
 
 ## License
 [MIT](LICENSE)
