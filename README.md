@@ -110,6 +110,9 @@ accesses を初期化します。Cluster上で動いている場合のみ利用�
 * ログのダブルクリックで詳細
 * アクセス解析 (such as GoogleAnalytics)
 
+## Contribution
+Isssue reports, feature requests and pull requests are welcome!
+
 ## License
 [MIT](LICENSE)
 
