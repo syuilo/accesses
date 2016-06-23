@@ -15,8 +15,8 @@ $header-height = calc(1rem + 16px)
 html, body
 	margin 0
 	padding 0
-	color #fff
-	background #000
+	color var(--main-foreground)
+	background var(--main-background)
 
 body
 	-webkit-text-size-adjust 100%
@@ -31,7 +31,7 @@ header
 	height $header-height
 	width 100%
 	font-size 0.8em
-	background #000
+	background var(--header-background)
 
 	left, right
 		height $header-height
@@ -55,7 +55,7 @@ header
 		right 0
 
 	actions
-		border-left solid 1px #222
+		border-left solid 1px var(--header-separator-color)
 
 		> *
 			display inline-block
@@ -74,10 +74,10 @@ header
 			margin 0
 			font-size 1em
 			text-decoration none
-			color #ddd
+			color var(--header-button-foreground)
 			outline none
 			border none
-			border-right solid 1px #111
+			border-right solid 1px var(--header-separator-color)
 			border-radius 0
 			box-shadow none
 			background transparent
@@ -90,7 +90,7 @@ header
 				margin-right 4px
 
 			&:hover
-				color #fff
+				color var(--header-button-hover-foreground)
 				transition all 0.1s ease
 
 			&:active
@@ -99,44 +99,47 @@ header
 	#title
 		padding 0 12px
 		font-weight bold
-		color #b4cc7e
-		border-right solid 1px #222
+		color var(--header-title-foreground)
+		border-right solid 1px var(--header-separator-color)
 
 	machine
 		padding 0 12px
-		border-right solid 1px #222
+		color var(--header-machine-foreground)
+		border-right solid 1px var(--header-separator-color)
 
 		&:before
 			content "MACHINE:"
-			color #eee
 			margin-right 4px
+			color var(--header-machine-caption-foreground)
 
 	pid
 		padding 0 12px
-		color #ccc
-		border-right solid 1px #222
+		color var(--header-pid-foreground)
+		border-right solid 1px var(--header-separator-color)
 
 		&:before
 			content "PID:"
 			margin-right 4px
+			color var(--header-pid-caption-foreground)
 
 	uptime
 		padding 0 12px
 		min-width 12em
-		color #ccc
-		border-right solid 1px #222
+		color var(--header-uptime-caption-foreground)
+		border-right solid 1px var(--header-separator-color)
 
 		&:before
 			content "UPTIME:"
 			margin-right 4px
+			color var(--header-uptime-caption-foreground)
 
 		&:after
 			content "s"
 
 	#now
 		padding 0 12px
-		color #f0f0f0
-		border-right solid 1px #222
+		color var(--header-now-foreground)
+		border-right solid 1px var(--header-separator-color)
 
 		&:before
 			content "\f017"
@@ -147,7 +150,7 @@ header
 			margin-right 6px
 
 	#follow
-		color #fff
+		color var(--header-follow-foreground)
 		transition all .3s ease
 
 		> i
@@ -165,7 +168,7 @@ header
 				transition all 0s ease
 
 	#rec
-		color #fff
+		color var(--header-rec-foreground)
 		background #000
 		transition all .3s ease
 
@@ -224,7 +227,8 @@ header
 		left 0
 		width 100%
 		font-size 0.8em
-		background #222
+		color var(--logs-header-foreground)
+		background var(--logs-header-background)
 
 		&.dragging > tr > th:not(.chosen)
 			background transparent !important
@@ -247,10 +251,10 @@ header
 				overflow hidden
 
 				&:hover
-					background #333
+					background var(--logs-header-column-hover-background)
 
 				&.chosen
-					background #f33
+					background var(--logs-header-column-chosen-background)
 
 				&:after
 					font-family FontAwesome
@@ -282,18 +286,24 @@ header
 			width 100%
 			cursor default
 
-			&:nth-child(even)
-				background rgba(255, 255, 255, 0.05)
+			&:nth-child(odd)
+				background var(--logs-body-log-odd-background)
 
-			&:hover
-				background rgba(255, 255, 255, 0.1)
+				&:hover
+					background var(--logs-body-log-odd-hover-background)
+
+			&:nth-child(even)
+				background var(--logs-body-log-even-background)
+
+				&:hover
+					background var(--logs-body-log-even-hover-background)
 
 			&:focus
-				background #02d7e1
+				background var(--logs-body-log-focus-background) !important
 				outline none
 
 				&, *
-					color #000 !important
+					color var(--logs-body-log-focus-foreground) !important
 
 			> td
 				display inline-block
@@ -305,20 +315,22 @@ header
 				overflow hidden
 
 				&[data-column='date']
-					color rgba(#fff, 0.5)
+					color var(--logs-body-log-column-date-foreground)
 
 				&[data-column='host']
-					color #008080
+					color var(--logs-body-log-column-host-foreground)
 
 				&[data-column='path']
+					color var(--logs-body-log-column-path-foreground)
+
 					query
-						color rgba(#fff, 0.6)
+						color var(--logs-body-log-column-path-query-foreground)
 
 				&[data-column='ua']
-					color rgba(#fff, 0.7)
+					color var(--logs-body-log-column-ua-foreground)
 
 				&[data-column='worker']
-					color rgba(#fff, 0.5)
+					color var(--logs-body-log-column-worker-foreground)
 
 @media (max-width: 800px)
 	html

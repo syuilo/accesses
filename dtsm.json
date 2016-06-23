@@ -21,6 +21,9 @@
     },
     "koa/koa.d.ts": {
       "ref": "830586ef556be5244f3711587b0c774ddfd959c4"
+    },
+    "cookie-parser/cookie-parser.d.ts": {
+      "ref": "3ee59b28b6c492d59c42bafd880d2c4d64788cbb"
     }
   }
 }
