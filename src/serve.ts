@@ -26,18 +26,23 @@ export default (options: Options) => {
 	return publish;
 
 	function attach(worker: cluster.Worker): void {
-		worker.on('message', (msg: any) => {
-			switch (msg.type) {
-				case 'access':
-					publish(msg.data);
-					break;
-				default:
-					break;
-			}
-		});
+		worker.on('message', onMessage);
+	}
+
+	function onMessage(message: any): void {
+		switch (message.type) {
+			case 'access':
+				publish(message.data);
+				break;
+
+			default:
+				// Ignore
+				break;
+		}
 	}
 
 	function publish(access: AccessWithWorker): void {
+		// Broadcast
 		io.emit('log', build(access));
 	}
 };
