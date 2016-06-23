@@ -7,7 +7,15 @@ accesses
 [![][david-dev-badge]][david-dev-link]
 [![][mit-badge]][mit]
 
-access logger
+A graphocal access logger.
+
+## Features
+* Frameworks support
+  * [express](https://github.com/expressjs/express)
+  * [koa](https://github.com/koajs/koa) (todo)
+  * and more (todo)
+* Cluster support
+* Databases support (todo)
 
 ## Install
 ``` shell
