@@ -1,5 +1,5 @@
-accesses
--------------------------------
+![accesses](./accesses.svg)
+---------------------------------------------
 
 [![][npm-badge]][npm-link]
 [![][travis-badge]][travis-link]
@@ -8,6 +8,8 @@ accesses
 [![][mit-badge]][mit]
 
 A graphocal access logger.
+
+![](./capture.png)
 
 ## Features
 * Frameworks support
