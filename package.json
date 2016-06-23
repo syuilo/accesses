@@ -1,7 +1,7 @@
 {
   "name": "accesses",
-  "version": "0.4.1",
-  "description": "Graphical accesses logger",
+  "version": "0.5.0",
+  "description": "Graphical access logger",
   "keywords": [
     "logging"
   ],
@@ -15,7 +15,7 @@
     "dtsm": "1.1.0",
     "gulp": "3.9.1",
     "gulp-livescript": "3.0.1",
-    "gulp-stylus": "2.4.0",
+    "gulp-stylus": "2.5.0",
     "gulp-tslint": "5.0.0",
     "gulp-typescript": "2.13.6",
     "livescript": "1.5.0",

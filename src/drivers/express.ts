@@ -1,5 +1,6 @@
 /// <reference path="../../typings/express/express.d.ts"/>
 import express = require('express');
+import * as url from 'url';
 
 import driver from '../driver';
 
@@ -9,10 +10,12 @@ export default driver(publish =>
 
 		publish({
 			ip: req.ip,
+			protocol: req.protocol,
 			method: req.method,
 			host: req.hostname,
 			path: req.path,
-			ua: req.headers['user-agent'],
+			query: url.parse(req.url).query,
+			headers: req.headers,
 			date: new Date(Date.now())
 		});
 	}

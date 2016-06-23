@@ -1,9 +1,11 @@
 type Access = {
 	ip: string;
+	protocol: string;
 	method: string;
 	host: string;
 	path: string;
-	ua: string;
+	query: string;
+	headers: any;
 	date: Date;
 }
 

@@ -77,7 +77,8 @@ function add-log(data)
 	method = data.method
 	host = data.host
 	path = data.path
-	ua = data.ua
+	query = data.query
+	ua = data.headers['user-agent']
 	ip = data.ip
 	color = data.color
 	worker = data.worker
@@ -95,7 +96,7 @@ function add-log(data)
 		<td data-column='date' title='#{date}'>#{date}</td>
 		<td data-column='method' title='#{method}' style='color:#{method-color};'>#{method}</td>
 		<td data-column='host' title='#{host}'>#{host}</td>
-		<td data-column='path' title='#{path}'>#{path}</td>
+		<td data-column='path' title='#{path}#{if query? then '?' + query else ''}'>#{path}#{if query? then '<query>?' + query + '</query>' else ''}</td>
 		<td data-column='ua' title='#{ua}'>#{ua}</td>
 		<td data-column='ip' title='#{ip}'><ip style='background:#{color.bg};color:#{color.fg} !important;'>#{ip}</ip></td>
 		<td data-column='worker' title='#{worker}'>(#{worker})</td>
