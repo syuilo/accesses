@@ -1,7 +1,7 @@
 import * as os from 'os';
 import * as cluster from 'cluster';
 import Options from './options';
-import Access from './access';
+import AccessWithWorker from './access-with-worker';
 import build from './log-builder';
 import server from './web/index';
 
@@ -45,7 +45,7 @@ export default (options: Options) => {
 		});
 	}
 
-	function publish(access: Access): void {
+	function publish(access: AccessWithWorker): void {
 		io.emit('log', build(access));
 	}
 };

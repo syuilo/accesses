@@ -1,8 +1,8 @@
 import seedColor from 'seed-color';
-import Access from './access';
+import AccessWithWorker from './access-with-worker';
 import Log from './log';
 
-export default (access: Access): Log => {
+export default (access: AccessWithWorker): Log => {
 	const color = seedColor(access.ip);
 
 	return Object.assign({}, access, {

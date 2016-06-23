@@ -1,15 +1,10 @@
+import AccessWithWorker from './access-with-worker';
+
 type Log = {
-	ip: string;
-	method: string;
-	host: string;
-	path: string;
-	ua: string;
-	date: Date;
-	worker: string;
 	color: {
 		bg: string;
 		fg: string;
 	};
-}
+} & AccessWithWorker;
 
 export default Log;

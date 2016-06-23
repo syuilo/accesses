@@ -15,5 +15,9 @@ export default (handler: (log: any) => any): any => (options?: Options) => {
 		});
 	};
 
-	return handler(publish);
+	return handler((access: Access) => {
+		publish(Object.assign({}, access, {
+			worker: cluster.isMaster ? 'master' : cluster.worker.id
+		}));
+	});
 };

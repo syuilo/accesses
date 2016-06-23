@@ -27,9 +27,11 @@
  */
 
 import serve from './serve';
+import driver from './driver';
 import express from './drivers/express';
 
 export = {
 	serve,
+	driver,
 	express
 };
