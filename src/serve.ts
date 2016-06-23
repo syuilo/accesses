@@ -1,17 +1,9 @@
-import * as os from 'os';
 import * as cluster from 'cluster';
 import Options from './options';
 import AccessWithWorker from './access-with-worker';
 import build from './log-builder';
+import getInfo from './get-info';
 import server from './web/index';
-
-const getInfo = () => {
-	return {
-		machine: os.hostname(),
-		pid: process.pid,
-		uptime: process.uptime()
-	};
-};
 
 export default (options: Options) => {
 	if (cluster.isWorker) {
