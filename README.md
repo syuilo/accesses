@@ -9,7 +9,7 @@
 
 [![NPM](https://nodei.co/npm/accesses.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/accesses/)
 
-A graphical access logger.
+A graphical access logger for [Node](https://github.com/nodejs/node).
 
 ![](./capture.png)
 
