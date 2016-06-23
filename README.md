@@ -11,6 +11,7 @@
 
 A graphical access logger for [Node](https://github.com/nodejs/node).
 
+## Gallery
 ![](./capture.png)
 
 ## Features
@@ -111,7 +112,7 @@ accesses を初期化します。Cluster上で動いている場合のみ利用�
 * アクセス解析 (such as GoogleAnalytics)
 
 ## Contribution
-Isssue reports, feature requests and pull requests are welcome!
+Issue reports, feature requests and pull requests are welcome!
 
 ## License
 [MIT](LICENSE)
