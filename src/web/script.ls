@@ -67,6 +67,18 @@ $ ->
 			$ \#rec .remove-class \enable
 			$ '#rec > i' .attr \class 'fa fa-play'
 
+	Sortable.create ($ 'body > header > left > info').0, do
+		group: \info
+		animation: 150ms
+		chosen-class: \chosen
+		store:
+			get: (sortable) ->
+				order = local-storage.get-item sortable.options.group.name
+				if order then order.split \| else []
+			set: (sortable) ->
+				order = sortable.to-array!
+				local-storage.set-item sortable.options.group.name, order.join \|
+
 	init-fix-thead!
 	logs.for-each add-log
 	update-clock!
@@ -125,7 +137,7 @@ function sort-column(columns, $tr)
 
 function init-fix-thead
 	$head = $ '#logs > thead'
-	Sortable.create ($head.children \tr).0, {
+	Sortable.create ($head.children \tr).0, do
 		group: \columns
 		animation: 150ms
 		chosen-class: \chosen
@@ -133,11 +145,9 @@ function init-fix-thead
 			get: (sortable) ->
 				order = local-storage.get-item sortable.options.group.name
 				if order then order.split \| else []
-
 			set: (sortable) ->
 				order = sortable.to-array!
 				local-storage.set-item sortable.options.group.name, order.join \|
-
 		on-start: ->
 			$head.add-class \dragging
 		on-end: ->
@@ -149,7 +159,6 @@ function init-fix-thead
 				columns.push ($ @ .attr \data-column)
 			$ \#logs .children \tbody .children \tr .each ->
 				sort-column columns, $ @
-	}
 
 function update-clock
 	s = (new Date!).get-seconds!

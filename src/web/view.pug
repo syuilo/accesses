@@ -19,12 +19,13 @@ html(dir='ltr')
 		header
 			left
 				p#title= options.appName
-				machine
-				pid
-				uptime
-				time#now(datetime= Date.now())
-					span.yyyymmdd
-					span.hhmmss
+				info
+					machine(data-id='machine')
+					pid(data-id='pid')
+					uptime(data-id='uptime')
+					time#now(datetime= Date.now(), data-id='time')
+						span.yyyymmdd
+						span.hhmmss
 			right
 				actions
 					a#export(href='#')
