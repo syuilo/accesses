@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Graphical accesses logger",
   "keywords": [
     "logging"
@@ -10,6 +10,7 @@
   "repository": "https://github.com/syuilo/accesses.git",
   "bugs": "https://github.com/syuilo/accesses/issues",
   "main": "./built/index.js",
+  "typings": "./built/index.d.ts",
   "devDependencies": {
     "dtsm": "1.1.0",
     "gulp": "3.9.1",
