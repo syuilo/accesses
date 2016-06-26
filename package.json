@@ -30,7 +30,6 @@
     "node-ipc": "7.0.0",
     "pug": "2.0.0-beta3",
     "seed-color": "1.0.0",
-    "seedrandom": "2.4.2",
     "socket.io": "1.4.6"
   },
   "private": false
