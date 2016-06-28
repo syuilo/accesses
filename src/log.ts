@@ -1,10 +1,10 @@
-import AccessWithWorker from './access-with-worker';
+import Access from './access';
 
 type Log = {
 	color: {
 		bg: string;
 		fg: string;
 	};
-} & AccessWithWorker;
+} & Access;
 
 export default Log;

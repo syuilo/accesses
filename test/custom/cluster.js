@@ -1,0 +1,35 @@
+const cluster = require('cluster');
+
+const express = require('express');
+const accesses = require('../../built');
+
+// Master
+if (cluster.isMaster) {
+	// Count the machine's CPUs
+	const cpuCount = require('os').cpus().length;
+
+	// Create a worker for each CPU
+	for (let i = 0; i < cpuCount; i++) {
+		cluster.fork();
+	}
+
+	// Setup accesses from master proccess
+	accesses.serve({
+		appName: 'My Web Service',
+		port: 616
+	});
+}
+// Workers
+else {
+	const log = accesses.serve();
+
+	const app = express();
+
+	app.get('/', (req, res) => {
+		res.send('yeah');
+
+		log(req);
+	});
+
+	app.listen(80);
+}

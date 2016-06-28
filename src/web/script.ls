@@ -87,11 +87,11 @@ $ ->
 function add-log(data)
 	date = data.date
 	method = data.method
-	host = data.host
+	host = data.headers['host']
 	path = data.path
 	query = data.query
 	ua = data.headers['user-agent']
-	ip = data.ip
+	ip = data.remoteaddr
 	color = data.color
 	worker = data.worker
 

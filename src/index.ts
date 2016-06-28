@@ -26,11 +26,13 @@
  * SOFTWARE.
  */
 
+import * as http from 'http';
 import serve from './serve';
 import driver from './driver';
 import express from './drivers/express';
 
 export = {
+	http,
 	serve,
 	driver,
 	express

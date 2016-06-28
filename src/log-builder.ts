@@ -1,14 +1,27 @@
+import * as http from 'http';
+import * as url from 'url';
+const proxyaddr = require('proxy-addr');
 import seedColor from 'seed-color';
-import AccessWithWorker from './access-with-worker';
 import Log from './log';
 
-export default (access: AccessWithWorker): Log => {
-	const color = seedColor(access.ip);
+export default (req: http.IncomingMessage & { worker: string }): Log => {
+	const urlctx = url.parse(req.url);
+	const remoteaddr = proxyaddr(req, 'loopback');
+	const color = seedColor(remoteaddr);
 
-	return Object.assign({}, access, {
+	return {
+		date: new Date(Date.now()),
+		remoteaddr: remoteaddr,
+		protocol: (<any>req.socket).encrypted ? 'https' : 'http',
+		httpVersion: req.httpVersion,
+		method: req.method,
+		headers: req.headers,
+		path: urlctx.pathname,
+		query: urlctx.query,
 		color: {
 			bg: color.toHex(),
 			fg: color.contrast().toHex()
-		}
-	});
+		},
+		worker: req.worker
+	};
 };

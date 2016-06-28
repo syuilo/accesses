@@ -25,7 +25,6 @@
 	"files": [
 		"./node_modules/typescript/lib/lib.es6.d.ts",
 		"./typings/bundle.d.ts",
-		"./src/access-with-worker.ts",
 		"./src/access.ts",
 		"./src/driver.ts",
 		"./src/drivers/express.ts",

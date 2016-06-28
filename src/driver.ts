@@ -1,23 +1,9 @@
-import * as cluster from 'cluster';
+import * as http from 'http';
 import Options from './options';
-import Access from './access';
 import serve from './serve';
 
-export default (handler: (log: any) => any): any => (options?: Options) => {
-	if (cluster.isMaster && !options) {
-		throw 'options is required.';
-	}
+export default (handler: (publish: (req: http.IncomingMessage) => void) => void) => (options: Options) => {
+	const publish = serve(options);
 
-	const publish = cluster.isMaster ? serve(options) : (access: Access) => {
-		process.send({
-			type: 'access',
-			data: access
-		});
-	};
-
-	return handler((access: Access) => {
-		publish(Object.assign({}, access, {
-			worker: cluster.isMaster ? 'master' : cluster.worker.id
-		}));
-	});
+	return handler(publish);
 };
