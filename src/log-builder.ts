@@ -6,7 +6,7 @@ import Log from './log';
 
 export default (req: http.IncomingMessage & { worker: string }): Log => {
 	const urlctx = url.parse(req.url);
-	const remoteaddr = proxyaddr(req, 'loopback');
+	const remoteaddr = proxyaddr(req, () => true);
 	const color = seedColor(remoteaddr);
 
 	return {
