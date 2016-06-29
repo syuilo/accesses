@@ -110,7 +110,7 @@ function add-log(data)
 		<td data-column='host' title='#{host}'>#{host}</td>
 		<td data-column='path' title='#{path}#{if query? then '?' + query else ''}'>#{path}#{if query? then '<query>?' + query + '</query>' else ''}</td>
 		<td data-column='ua' title='#{ua}'>#{ua}</td>
-		<td data-column='ip' title='#{ip}' style='color:#{color.fg} !important'><ip style='background:#{color.bg}'>#{ip}</ip></td>
+		<td data-column='ip' title='#{ip}' style='color:#{color.fg} !important'><ip style='background:#{color.bg};color:#{color.fg} !important;'>#{ip}</ip></td>
 		<td data-column='worker' title='#{worker}'>(#{worker})</td>
 	</tr>"
 
