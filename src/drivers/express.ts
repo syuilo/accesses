@@ -5,7 +5,6 @@ import driver from '../driver';
 export default driver(publish =>
 	(req: express.Request, res: express.Response, next: any) => {
 		next();
-
 		publish(req);
 	}
 );
