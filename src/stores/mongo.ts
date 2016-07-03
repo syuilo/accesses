@@ -2,6 +2,8 @@
 /// <reference path="../../typings/mongodb/mongodb.d.ts" />
 import * as mongoose from 'mongoose';
 import * as mongodb from 'mongodb';
+import IStore from '../istore';
+import Access from '../access';
 
 export type Options = {
 	db?: mongodb.Db;
@@ -9,22 +11,31 @@ export type Options = {
 	collection?: string;
 };
 
-
-export default class {
+export default class MongoStore implements IStore {
 	private options: Options;
 	private db: mongodb.Db;
+	private collection: mongodb.Collection;
 
 	constructor(options: Options) {
 		this.options = options;
-		this.collection = options.collection || 'accesses';
+
+		const db = options.db;
+		this.collection = db.collection(options.collection || 'accesses');
 	}
 
-	private connectionFailed(err: any) {
-		this.changeState('disconnected');
-		throw err;
+	public insert(access: Access) {
+		this.collection.insertOne(access);
 	}
 
-	public insert() {
+	public list(limit: number) {
+		return new Promise((resolve, reject) => {
+			this.collection.find({}).limit(limit).toArray((err, docs) => {
+				if (err) {
+					return reject(err);
+				}
 
+				resolve(docs);
+			});
+		});
 	}
 }
