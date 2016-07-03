@@ -95,6 +95,7 @@ Now, we can monitor an accesses in localhost:616
 | -------- | ------ | -------------------------------- |
 | appName  | string | Your app name                    |
 | port     | number | Port number that you want listen |
+| store    | Store  | a |
 
 ### accesses.serve(options)
 [NEED TRANSLATE]

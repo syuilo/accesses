@@ -31,10 +31,13 @@
 		"./src/drivers/koa.ts",
 		"./src/get-info.ts",
 		"./src/index.ts",
+		"./src/istore.ts",
 		"./src/log-builder.ts",
 		"./src/log.ts",
 		"./src/options.ts",
 		"./src/serve.ts",
+		"./src/stores/mongo.ts",
+		"./src/stores/mysql.ts",
 		"./src/web/index.ts"
 	]
 }

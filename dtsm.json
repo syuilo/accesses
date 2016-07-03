@@ -27,6 +27,12 @@
     },
     "node-uuid/node-uuid.d.ts": {
       "ref": "19b6e80e68f7dec21e453c225680fe3d9899e946"
+    },
+    "mongoose/mongoose.d.ts": {
+      "ref": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
+    },
+    "mongodb/mongodb.d.ts": {
+      "ref": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
     }
   }
 }
