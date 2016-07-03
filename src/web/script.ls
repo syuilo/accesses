@@ -85,6 +85,7 @@ $ ->
 	set-interval update-clock, 1000ms
 
 function add-log(data)
+	id = data.id
 	date = data.date
 	method = data.method
 	host = data.headers['host']
@@ -104,7 +105,7 @@ function add-log(data)
 	$body = $table.children \tbody
 	$head = $table.children \thead
 
-	$tr = $ "<tr tabindex=0>
+	$tr = $ "<tr tabindex=0 id='#{id}'>
 		<td data-column='date' title='#{date}'>#{date}</td>
 		<td data-column='method' title='#{method}' style='color:#{method-color};'>#{method}</td>
 		<td data-column='host' title='#{host}'>#{host}</td>

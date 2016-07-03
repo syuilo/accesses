@@ -1,4 +1,5 @@
 type Access = {
+	id: string;
 	remoteaddr: string;
 	protocol: string;
 	httpVersion: string;

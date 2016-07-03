@@ -1,5 +1,6 @@
 import * as http from 'http';
 import * as url from 'url';
+import * as uuid from 'node-uuid';
 const proxyaddr = require('proxy-addr');
 import seedColor from 'seed-color';
 import Log from './log';
@@ -10,6 +11,7 @@ export default (req: http.IncomingMessage & { worker: string }): Log => {
 	const color = seedColor(remoteaddr);
 
 	return {
+		id: uuid.v4(),
 		date: new Date(Date.now()),
 		remoteaddr: remoteaddr,
 		protocol: (<any>req.socket).encrypted ? 'https' : 'http',
