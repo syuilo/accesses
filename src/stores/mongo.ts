@@ -29,7 +29,11 @@ export default class MongoStore implements IStore {
 
 	public list(limit: number) {
 		return new Promise((resolve, reject) => {
-			this.collection.find({}).limit(limit).toArray((err, docs) => {
+			this.collection
+			.find({})
+			.sort({date: -1})
+			.limit(limit)
+			.toArray((err, docs) => {
 				if (err) {
 					return reject(err);
 				}
