@@ -29,6 +29,7 @@
 		"./src/driver.ts",
 		"./src/drivers/express.ts",
 		"./src/drivers/koa.ts",
+		"./src/drivers/native.ts",
 		"./src/get-info.ts",
 		"./src/index.ts",
 		"./src/istore.ts",

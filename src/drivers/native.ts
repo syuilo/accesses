@@ -1,8 +1,10 @@
-import http from 'http';
+import * as http from 'http';
 import driver from '../driver';
 
 export default driver(publish =>
-	() => {
-		publish({});
+	(server: http.Server) => {
+		server.on('request', req => {
+			publish(req);
+		});
 	}
 );

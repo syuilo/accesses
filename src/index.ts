@@ -30,10 +30,12 @@ import * as http from 'http';
 import serve from './serve';
 import driver from './driver';
 import express from './drivers/express';
+import attach from './drivers/native';
 
 export = {
 	http,
 	serve,
 	driver,
+	attach,
 	express
 };
