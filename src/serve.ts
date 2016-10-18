@@ -1,5 +1,6 @@
 import * as cluster from 'cluster';
 import * as http from 'http';
+import * as crypto from 'crypto';
 import Options from './options';
 import Access from './access';
 import build from './log-builder';
@@ -48,6 +49,15 @@ export default (options?: Options) => {
 		}
 
 		function publish(access: Access): void {
+			// Hash remote addr if hashIp option is true
+			if (options.hashIp) {
+				const sha512 = crypto.createHash('sha256');
+				sha512.update(access.remoteaddr);
+				const hash = sha512.digest('hex');
+
+				access.remoteaddr = hash;
+			}
+
 			// Broadcast
 			io.emit('log', access);
 		}

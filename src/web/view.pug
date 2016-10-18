@@ -47,6 +47,6 @@ html(dir='ltr')
 				th(data-column='host') Host
 				th(data-column='path') Path
 				th(data-column='ua') User-Agent
-				th(data-column='ip') Remote Addr
+				th(data-column='ip')= 'Remote Addr' + (options.hashIp ? ' (Hashed)' : '')
 				th(data-column='worker') Worker
 			tbody
