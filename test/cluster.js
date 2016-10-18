@@ -16,7 +16,7 @@ if (cluster.isMaster) {
 	// Setup accesses from master proccess
 	accesses.serve({
 		appName: 'My Web Service',
-		port: 616
+		port: 8001
 	});
 }
 // Workers
@@ -30,5 +30,5 @@ else {
 		res.send('yeah');
 	});
 
-	app.listen(80);
+	app.listen(8000);
 }
