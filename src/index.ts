@@ -10,6 +10,7 @@ import * as redis from 'redis';
 import * as express from 'express';
 
 import autobind from './helpers/autobind';
+import getInfo from './helpers/get-info';
 
 // Drivers
 import expressDriver from './drivers/express';
@@ -76,6 +77,8 @@ export default class Accesses {
 	private subscriber: redis.RedisClient;
 	private channel: string;
 
+	private infoClock: NodeJS.Timer;
+
 	// Drivers
 	public express: any;
 
@@ -106,6 +109,8 @@ export default class Accesses {
 		this.subscriber.subscribe(this.channel);
 		this.subscriber.on('message', this.onMessage);
 
+		this.infoClock = setInterval(this.emitInfo, 1000);
+
 		this.express = expressDriver(this);
 	}
 
@@ -123,7 +128,7 @@ export default class Accesses {
 	 * @param msg メッセージ
 	 */
 	@autobind
-	private broadcastToClientStream(msg): void {
+	private broadcastToClientStream(msg: string): void {
 		this.wss.clients
 			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
@@ -141,6 +146,14 @@ export default class Accesses {
 	private emit(type: string, data: any): void {
 		const msg = JSON.stringify({ type, data });
 		this.publisher.publish(this.channel, msg);
+	}
+
+	@autobind
+	private emitInfo(): void {
+		this.broadcastToClientStream(JSON.stringify({
+			type: 'info',
+			data: getInfo()
+		}));
 	}
 
 	/**
