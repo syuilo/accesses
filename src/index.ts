@@ -12,13 +12,29 @@ import * as express from 'express';
 import expressDriver from './drivers/express';
 
 export type Options = {
+	/**
+	 * Your application name
+	 */
 	appName: string;
+
+	/**
+	 * The port number you want to provide the Web interface
+	 */
 	port: number;
+
+	/**
+	 * Whether an IP addresses is hashed and
+	 * displayed on the Web interface
+	 */
 	hashIp: boolean;
 };
 
 export type Request = {
+	/**
+	 * The ID of context between a request and a response
+	 */
 	id: string;
+
 	remoteaddr: string;
 	httpVersion: string;
 	method: string;
@@ -28,7 +44,11 @@ export type Request = {
 };
 
 export type Response = {
+	/**
+	 * The ID of context between a request and a response
+	 */
 	id: string;
+
 	statusCode: number;
 };
 
@@ -57,19 +77,32 @@ export default class Accesses {
 		this.express = expressDriver(this);
 	}
 
+	/**
+	 * クライアントにイベントを送信します
+	 * @param type イベント名
+	 * @param data データ
+	 */
 	private emit(type: string, data: any): void {
 		// Broadcast
-		this.wss.clients.forEach(client => {
-			if (client.readyState === ws.OPEN) {
+		this.wss.clients
+			.filter(client => client.readyState === ws.OPEN)
+			.forEach(client => {
 				client.send(JSON.stringify({ type, data }));
-			}
-		});
+			});
 	}
 
+	/**
+	 * リクエストを捕捉します
+	 * @param req リクエスト
+	 */
 	public captureRequest(req: Request): void {
 		this.emit('request', req);
 	}
 
+	/**
+	 * レスポンスを捕捉します
+	 * @param res レスポンス
+	 */
 	public captureResponse(res: Response): void {
 		this.emit('response', res);
 	}
