@@ -13,7 +13,7 @@
 		</thead>
 		<tbody>
 			<tr each={ logs } tabindex="-1" id={ id }>
-				<td class="date" title={ date.toLocaleString() }>{ date }</td>
+				<td class="date" title={ date }>{ date }</td>
 				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
 				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
 				<td class="path" title={ url }>

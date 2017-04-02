@@ -5,7 +5,7 @@
 import * as process from 'process';
 import * as express from 'express';
 import * as onFinished from 'on-finished';
-import * as uuid from 'node-uuid';
+import * as uuid from 'uuid';
 const proxyaddr = require('proxy-addr');
 import Accesses from '../';
 
