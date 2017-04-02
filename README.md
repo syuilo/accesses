@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 app.listen(80);
 ```
 
-Now, we can monitor an accesses in localhost:616
+Now, we can monitor accesses on localhost:616
 
 Reference
 ---------
