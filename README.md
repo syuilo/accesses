@@ -1,5 +1,5 @@
 ![accesses](./accesses.png)
----------------------------------------------
+===========================
 
 [![][npm-badge]][npm-link]
 [![][travis-badge]][travis-link]
@@ -11,10 +11,10 @@
 
 A graphical access logger for [Node](https://github.com/nodejs/node).
 
-## Gallery
 ![](./capture.png)
 
-## Features
+Features
+--------
 * Frameworks support
   * [express](https://github.com/expressjs/express)
   * [koa](https://github.com/koajs/koa) (todo)
@@ -22,25 +22,30 @@ A graphical access logger for [Node](https://github.com/nodejs/node).
 * Cluster support
 * Databases support (todo)
 
-## Install
+Install
+-------
 ``` shell
 $ npm install accesses --save
 ```
 
-## Usage
+Usage
+-----
 ### With [express](https://github.com/expressjs/express)
-#### Basic
+
 ``` javascript
 const express = require('express');
-const accesses = require('accesses');
+const Accesses = require('accesses');
 
 const app = express();
 
-// Register accesses middleware
-app.use(accesses.express({
+// Set up
+const accesses = new Accesses({
 	appName: 'My Web Service',
 	port: 616
-}));
+});
+
+// Register middleware
+app.use(accesses.express);
 
 app.get('/', (req, res) => {
 	res.send('yeah');
@@ -49,77 +54,24 @@ app.get('/', (req, res) => {
 app.listen(80);
 ```
 
-#### Cluster
-``` javascript
-const cluster = require('cluster');
-
-const express = require('express');
-const accesses = require('accesses');
-
-// Master
-if (cluster.isMaster) {
-	// Count the machine's CPUs
-	const cpuCount = require('os').cpus().length;
-
-	// Create a worker for each CPU
-	for (let i = 0; i < cpuCount; i++) {
-		cluster.fork();
-	}
-
-	// Setup accesses from master proccess
-	accesses.serve({
-		appName: 'My Web Service',
-		port: 616
-	});
-}
-// Workers
-else {
-	const app = express();
-
-	// Register accesses middleware
-	app.use(accesses.express());
-
-	app.get('/', (req, res) => {
-		res.send('yeah');
-	});
-
-	app.listen(80);
-}
-```
-
 Now, we can monitor an accesses in localhost:616
 
-## Reference
+Reference
+---------
 ### options
-| Property | Type   | Description                      |
-| -------- | ------ | -------------------------------- |
-| appName  | string | Your app name                    |
-| port     | number | Port number that you want listen |
-| store    | Store  | a |
+| Property     | Type     | Description                      |
+| ------------ | -------- | -------------------------------- |
+| **appName**  | *string* | Your app name                    |
+| **port**     | *number* | Port number that you want listen |
+| **store**    | *Store*  | todo |
 
-### accesses.serve(options)
-[NEED TRANSLATE]
-accesses を初期化します。Cluster上で動いている場合のみ利用します。
-注: このメソッドはマスタープロセスで呼び出してください。
-
-## TODO
-* express以外のフレームワークにも対応
-* ログを任意のデータベースにストアできるように
-* フロントエンドの依存関係をnpmかbowerで管理
-* アクセスの要認証機能
-* テーブルのカラムによるソート
-* カラムの幅を調整できるように
-* ログのダブルクリックで詳細
-* アクセス解析 (such as GoogleAnalytics)
-
-## Contribution
+Contribution
+------------
 Issue reports, feature requests and pull requests are welcome!
 
-## License
+License
+-------
 [MIT](LICENSE)
-
-## 余談
-monicaって名前にしようと思ってたけど[すでにnpmにあったので](https://www.npmjs.com/package/monica)accessesにしました。
 
 [npm-link]:        https://www.npmjs.com/package/accesses
 [npm-badge]:       https://img.shields.io/npm/v/accesses.svg?style=flat-square
