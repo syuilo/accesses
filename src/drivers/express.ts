@@ -1,10 +1,30 @@
-/// <reference path="../../typings/express/express.d.ts"/>
-import express = require('express');
-import driver from '../driver';
+import * as express from 'express';
+import * as onFinished from 'on-finished';
+import * as uuid from 'node-uuid';
+const proxyaddr = require('proxy-addr');
+import Accesses from '../';
 
-export default driver(publish =>
-	(req: express.Request, res: express.Response, next: any) => {
-		next();
-		publish(req);
-	}
-);
+export default (accesses: Accesses) => (req: express.Request, res: express.Response, next: any) => {
+	const id = uuid.v4();
+	const remoteaddr = proxyaddr(req, () => true);
+
+	accesses.captureRequest({
+		id: id,
+		date: new Date(),
+		url: req.url,
+		remoteaddr: remoteaddr,
+		httpVersion: req.httpVersion,
+		method: req.method,
+		headers: req.headers
+	});
+
+	onFinished(res, () => {
+		accesses.captureResponse({
+			id: id,
+			statusCode: res.statusCode
+		});
+	});
+
+	next();
+};
+

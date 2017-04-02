@@ -1,41 +1,76 @@
-//////////////////////////////////////////////////
-// ACCESSES
-//////////////////////////////////////////////////
-
-/**
- * The MIT License (MIT)
- *
- * Copyright (c) 2016 syuilo
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+/*!
+ * accesses
+ * Copyright (c) 2016-2017 syuilo
+ * MIT Licensed
  */
 
 import * as http from 'http';
-import serve from './serve';
-import driver from './driver';
-import express from './drivers/express';
-import attach from './drivers/native';
+import * as ws from 'ws';
+import * as express from 'express';
 
-export = {
-	http,
-	serve,
-	driver,
-	attach,
-	express
+// Drivers
+import expressDriver from './drivers/express';
+
+export type Options = {
+	appName: string;
+	port: number;
+	hashIp: boolean;
 };
+
+export type Request = {
+	id: string;
+	remoteaddr: string;
+	httpVersion: string;
+	method: string;
+	url: string;
+	headers: any;
+	date: Date;
+};
+
+export type Response = {
+	id: string;
+	statusCode: number;
+};
+
+export default class Accesses {
+	wss: ws.Server;
+
+	// Drivers
+	express: any;
+
+	constructor(opts: Options) {
+		const app = express();
+		app.disable('x-powered-by');
+		app.set('view engine', 'pug')
+
+		app.get('*', (req, res) => {
+			res.render(__dirname + '/web/view.pug', opts);
+		});
+
+		const server = http.createServer(app);
+		server.listen(opts.port);
+
+		this.wss = new ws.Server({
+			server: server
+		});
+
+		this.express = expressDriver(this);
+	}
+
+	private emit(type: string, data: any): void {
+		// Broadcast
+		this.wss.clients.forEach(client => {
+			if (client.readyState === ws.OPEN) {
+				client.send(JSON.stringify({ type, data }));
+			}
+		});
+	}
+
+	public captureRequest(req: Request): void {
+		this.emit('request', req);
+	}
+
+	public captureResponse(res: Response): void {
+		this.emit('response', res);
+	}
+}

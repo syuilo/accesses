@@ -1,36 +1,48 @@
 {
   "name": "accesses",
-  "version": "1.2.0",
-  "description": "Graphical access logger",
+  "version": "2.0.0",
+  "description": "HTTP request logger middleware",
   "keywords": [
-    "logging"
+    "http",
+    "logger",
+    "middleware"
   ],
   "author": "syuilo",
   "license": "MIT",
   "repository": "https://github.com/syuilo/accesses.git",
   "bugs": "https://github.com/syuilo/accesses/issues",
   "main": "./built/index.js",
-  "typings": "./built/index.d.ts",
+  "types": "./built/index.d.ts",
   "devDependencies": {
-    "dtsm": "1.1.0",
+    "@types/event-stream": "3.3.31",
+    "@types/express": "4.0.35",
+    "@types/gulp": "4.0.2",
+    "@types/gulp-typescript": "0.0.33",
+    "@types/node-uuid": "0.0.28",
+    "@types/on-finished": "2.2.29",
+    "@types/webpack": "2.2.14",
+    "@types/ws": "0.0.39",
+    "css-loader": "0.28.0",
+    "event-stream": "3.3.4",
     "gulp": "3.9.1",
-    "gulp-livescript": "3.0.1",
-    "gulp-stylus": "2.5.0",
-    "gulp-tslint": "5.0.0",
-    "gulp-typescript": "2.13.6",
-    "livescript": "1.5.0",
-    "merge2": "1.0.2",
-    "tslint": "3.12.1",
-    "typescript": "1.8.10"
+    "gulp-typescript": "3.1.6",
+    "riot": "3.4.0",
+    "riot-tag-loader": "1.0.0",
+    "style-loader": "0.16.1",
+    "stylus": "0.54.5",
+    "stylus-loader": "3.0.1",
+    "typescript": "2.2.2",
+    "webpack": "2.3.2",
+    "webpack-stream": "3.2.0"
   },
   "dependencies": {
-    "cookie-parser": "1.4.3",
-    "express": "4.14.0",
-    "node-uuid": "1.4.7",
-    "proxy-addr": "1.1.2",
-    "pug": "2.0.0-beta3",
+    "express": "4.15.2",
+    "node-uuid": "1.4.8",
+    "on-finished": "2.3.0",
+    "proxy-addr": "1.1.4",
+    "pug": "2.0.0-beta11",
+    "reconnecting-websocket": "3.0.3",
     "seed-color": "1.0.0",
-    "socket.io": "1.4.8"
-  },
-  "private": false
+    "ws": "2.2.2"
+  }
 }
