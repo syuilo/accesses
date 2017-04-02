@@ -14,7 +14,7 @@
 		<tbody>
 			<tr each={ logs } tabindex="-1">
 				<td class="date">{ date }</td>
-				<td class="method">{ method }</td>
+				<td class="method { method.toLowerCase() }">{ method }</td>
 				<td class="host">{ url.hostname }</td>
 				<td class="path">{ url.pathname }<span class="query" if={ url.search }>{ url.search }</span><span class="hash" if={ url.hash }>{ url.hash }</span></td>
 				<td class="ua">{ headers['user-agent'] || '' }</td>
@@ -155,6 +155,13 @@
 
 							&.date
 								color var(--logs-body-log-column-date-foreground)
+
+							&.method
+								&.get
+									color var(--logs-body-log-column-method-get-foreground)
+
+								&.post
+									color var(--logs-body-log-column-method-post-foreground)
 
 							&.host
 								color var(--logs-body-log-column-host-foreground)
