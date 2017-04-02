@@ -41,7 +41,11 @@ const app = express();
 // Set up
 const accesses = new Accesses({
 	appName: 'My Web Service',
-	port: 616
+	port: 616,
+	redis: {
+		host: 'localhost',
+		port: 6379
+	}
 });
 
 // Register middleware

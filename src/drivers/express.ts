@@ -1,3 +1,7 @@
+/**
+ * express driver
+ */
+
 import * as process from 'process';
 import * as express from 'express';
 import * as onFinished from 'on-finished';
@@ -14,7 +18,7 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 	accesses.captureRequest({
 		id: id,
 		date: new Date(),
-		url: `${req.protocol}://${req.host}${req.originalUrl}`,
+		url: `${req.protocol}://${req.hostname}${req.originalUrl}`,
 		remoteaddr: remoteaddr,
 		httpVersion: req.httpVersion,
 		method: req.method,

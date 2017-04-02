@@ -6,7 +6,10 @@
 
 import * as http from 'http';
 import * as ws from 'ws';
+import * as redis from 'redis';
 import * as express from 'express';
+
+import autobind from './helpers/autobind';
 
 // Drivers
 import expressDriver from './drivers/express';
@@ -27,6 +30,12 @@ export type Options = {
 	 * displayed on the Web interface
 	 */
 	hashIp: boolean;
+
+	redis: {
+		host: string;
+		port: number;
+		channel?: string;
+	}
 };
 
 export type Request = {
@@ -61,10 +70,14 @@ export type Response = {
 };
 
 export default class Accesses {
-	wss: ws.Server;
+	private wss: ws.Server;
+
+	private publisher: redis.RedisClient;
+	private subscriber: redis.RedisClient;
+	private channel: string;
 
 	// Drivers
-	express: any;
+	public express: any;
 
 	constructor(opts: Options) {
 		const app = express();
@@ -82,28 +95,59 @@ export default class Accesses {
 			server: server
 		});
 
+		this.channel = opts.redis.channel || 'accesses';
+
+		// Connect to Redis
+		this.publisher = redis.createClient(
+			opts.redis.port, opts.redis.host);
+		this.subscriber = redis.createClient(
+			opts.redis.port, opts.redis.host);
+
+		this.subscriber.subscribe(this.channel);
+		this.subscriber.on('message', this.onMessage);
+
 		this.express = expressDriver(this);
 	}
 
 	/**
-	 * クライアントにイベントを送信します
-	 * @param type イベント名
-	 * @param data データ
+	 * イベントを受け取った時のハンドラ
+	 * @param msg メッセージ
 	 */
-	private emit(type: string, data: any): void {
-		// Broadcast
+	@autobind
+	private onMessage(channel, msg): void {
+		this.broadcastToClientStream(msg);
+	}
+
+	/**
+	 * クライアントにメッセージをブロードキャストします
+	 * @param msg メッセージ
+	 */
+	@autobind
+	private broadcastToClientStream(msg): void {
 		this.wss.clients
 			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
 				if (client.readyState !== ws.OPEN) return;
-				client.send(JSON.stringify({ type, data }));
+				client.send(msg);
 			});
+	}
+
+	/**
+	 * イベントを公開します
+	 * @param type イベント名
+	 * @param data データ
+	 */
+	@autobind
+	private emit(type: string, data: any): void {
+		const msg = JSON.stringify({ type, data });
+		this.publisher.publish(this.channel, msg);
 	}
 
 	/**
 	 * リクエストを捕捉します
 	 * @param req リクエスト
 	 */
+	@autobind
 	public captureRequest(req: Request): void {
 		this.emit('request', req);
 	}
@@ -112,6 +156,7 @@ export default class Accesses {
 	 * レスポンスを捕捉します
 	 * @param res レスポンス
 	 */
+	@autobind
 	public captureResponse(res: Response): void {
 		this.emit('response', res);
 	}
