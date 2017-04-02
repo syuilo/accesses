@@ -22,7 +22,7 @@
 					<span class="hash" if={ _url.hash }>{ _url.hash }</span>
 				</td>
 				<td class="ua" title={ headers['user-agent'] }>{ headers['user-agent'] || '' }</td>
-				<td class="ip" title={ remoteaddr } style="color:{ fg }"><span style="background:{ bg }">{ remoteaddr }</span></td>
+				<td class="ip" title={ remoteaddr } style="color:{ fg } !important"><span style="background:{ bg }">{ remoteaddr }</span></td>
 				<td class="res" title={ !res ? '(pending)' : res.status + ' (' + res.time.toFixed(3) + 'ms)' }>
 					<span class="pending" if={ !res }>(pending)</span>
 					<span class="status { res.kind }" if={ res }>{ res.status }</span>
@@ -66,7 +66,8 @@
 					display block
 					position sticky
 					z-index 1
-					top 32px
+					//top 32px
+					top 0
 					left 0
 					width 100%
 					font-size 0.8em
@@ -99,24 +100,6 @@
 							&.chosen
 								background var(--logs-header-column-chosen-background)
 
-							&:after
-								font-family FontAwesome
-								display block
-								position absolute
-								top 0
-								right 8px
-								bottom 0
-								margin auto
-								height 1em
-
-							&.desc
-								&:after
-									content "\f106"
-
-							&.asc
-								&:after
-									content "\f107"
-
 				> tbody
 					display block
 					font-size 0.8em
@@ -145,7 +128,7 @@
 							background var(--logs-body-log-focus-background) !important
 							outline none
 
-							&, *
+							&, > *:not(.ip), > *:not(.ip) *
 								color var(--logs-body-log-focus-foreground) !important
 
 						> td
@@ -229,6 +212,7 @@
 			req.bg = `rgb(${r}, ${g}, ${b})`;
 			req.fg = luma >= 165 ? '#000' : '#fff';
 			this.logs.push(req);
+			if (this.logs.length > 1000) this.logs.shift();
 			this.update();
 		};
 

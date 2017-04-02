@@ -1,6 +1,7 @@
 <accesses-view>
-	<accesses-header ui={ this } />
+	<!--<accesses-header ui={ this } />-->
 	<accesses-logs ui={ this } />
+	<accesses-stream-indicator />
 
 	<style>
 		:scope

@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "2.0.0-beta7",
+  "version": "2.0.0-beta12",
   "description": "HTTP request logger middleware",
   "keywords": [
     "http",
@@ -20,7 +20,7 @@
     "@types/gulp-typescript": "0.0.33",
     "@types/on-finished": "2.2.29",
     "@types/redis": "0.12.36",
-    "@types/uuid": "^2.0.29",
+    "@types/uuid": "2.0.29",
     "@types/webpack": "2.2.14",
     "@types/ws": "0.0.39",
     "css-loader": "0.28.0",
@@ -37,6 +37,7 @@
     "webpack-stream": "3.2.0"
   },
   "dependencies": {
+    "animejs": "2.0.2",
     "express": "4.15.2",
     "on-finished": "2.3.0",
     "proxy-addr": "1.1.4",
@@ -44,7 +45,7 @@
     "reconnecting-websocket": "3.0.3",
     "redis": "2.7.1",
     "seedrandom": "2.4.2",
-    "uuid": "^3.0.1",
+    "uuid": "3.0.1",
     "ws": "2.2.2"
   }
 }
