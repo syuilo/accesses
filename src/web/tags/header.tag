@@ -9,53 +9,41 @@
 	</div>
 
 	<style>
-		$header-height = calc(1rem + 16px)
-
 		:scope
 			display block
 			position sticky
 			z-index 10000
 			top 0
 			left 0
-			height $header-height
 			width 100%
 			font-size 0.8em
 			background var(--header-background)
 
-			left, right
-				height $header-height
+			> .left, > .right
 				background inherit
 				white-space nowrap
 
 				> *
 					display inline-block
-					line-height $header-height
+					line-height 32px
 
-				p
-					margin 0
-					padding 0
+			> .left
+				position relative
 
-			left
+			> .right
 				position absolute
-				left 0
-
-				info
-					display inline-block
-
-					> *
-						display inline-block
-						line-height $header-height
-
-			right
-				position absolute
+				top 0
 				right 0
 
-			actions
-				border-left solid 1px var(--header-separator-color)
+			p
+				margin 0
+				padding 0
 
-				> *
-					display inline-block
-					line-height $header-height
+			.info
+				display inline-block
+
+			.functions
+				border-left solid 1px var(--header-separator-color)
 
 				button, a
 					-webkit-appearance none
@@ -95,7 +83,7 @@
 				color var(--header-title-foreground)
 				border-right solid 1px var(--header-separator-color)
 
-			machine
+			.machine
 				padding 0 12px
 				color var(--header-machine-foreground)
 				border-right solid 1px var(--header-separator-color)
@@ -105,7 +93,7 @@
 					margin-right 4px
 					color var(--header-machine-caption-foreground)
 
-			pid
+			.pid
 				padding 0 12px
 				color var(--header-pid-foreground)
 				border-right solid 1px var(--header-separator-color)
@@ -115,7 +103,7 @@
 					margin-right 4px
 					color var(--header-pid-caption-foreground)
 
-			uptime
+			.uptime
 				padding 0 12px
 				min-width 12em
 				color var(--header-uptime-caption-foreground)
@@ -129,7 +117,7 @@
 				&:after
 					content "s"
 
-			#now
+			.now
 				padding 0 12px
 				color var(--header-now-foreground)
 				border-right solid 1px var(--header-separator-color)
@@ -142,7 +130,7 @@
 				.yyyymmdd
 					margin-right 6px
 
-			#follow
+			.follow
 				color var(--header-follow-foreground)
 				transition all .3s ease
 
@@ -160,7 +148,7 @@
 						color darken(#c1e31c, 20%)
 						transition all 0s ease
 
-			#rec
+			.rec
 				color var(--header-rec-foreground)
 				background #000
 				transition all .3s ease

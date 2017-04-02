@@ -49,7 +49,15 @@ export type Response = {
 	 */
 	id: string;
 
-	statusCode: number;
+	/**
+	 * The status code of the response
+	 */
+	status: number;
+
+	/**
+	 * The time between request and response, in milliseconds
+	 */
+	time: number;
 };
 
 export default class Accesses {

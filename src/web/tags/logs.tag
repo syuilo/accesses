@@ -12,14 +12,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs }>
+			<tr each={ logs } tabindex="-1">
 				<td class="date">{ date }</td>
 				<td class="method">{ method }</td>
 				<td class="host">{ url.hostname }</td>
 				<td class="path">{ url.pathname }<span class="query" if={ url.search }>{ url.search }</span><span class="hash" if={ url.hash }>{ url.hash }</span></td>
 				<td class="ua">{ headers['user-agent'] || '' }</td>
 				<td class="ip">{ remoteaddr }</td>
-				<td class="res"><span class="pending" if={ !res }>(pending)</span><span class="status-code" if={ res }>{ res.statusCode }</span></td>
+				<td class="res">
+					<span class="pending" if={ !res }>(pending)</span>
+					<span class="status { res.kind }" if={ res }>{ res.status }</span>
+					<span class="time" if={ res }>({ res.time.toFixed(0) }ms)</span>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -40,7 +44,7 @@
 					width 4%
 
 				.host
-					width 12%
+					width 11%
 
 				.path
 					width 22%
@@ -52,13 +56,13 @@
 					width 10%
 
 				.res
-					width 6%
+					width 7%
 
 				> thead
 					display block
 					position sticky
 					z-index 1
-					top $header-height
+					top 32px
 					left 0
 					width 100%
 					font-size 0.8em
@@ -165,7 +169,25 @@
 								color var(--logs-body-log-column-ua-foreground)
 
 							&.res
-								color var(--logs-body-log-column-worker-foreground)
+								color var(--logs-body-log-column-res-foreground)
+
+								.status
+									&.success
+										color var(--logs-body-log-column-res-success-foreground)
+
+									&.redirection
+										color var(--logs-body-log-column-res-redirection-foreground)
+
+									&.client-error
+										color var(--logs-body-log-column-res-client-error-foreground)
+
+									&.server-error
+										color var(--logs-body-log-column-res-server-error-foreground)
+
+								.time
+									margin-left 8px
+									color var(--logs-body-log-column-res-time-foreground)
+
 	</style>
 
 	<script>
@@ -188,6 +210,28 @@
 			req.url = new URL(req.url);
 			this.logs.push(req);
 			this.update();
+		};
+
+		this.onResponse = res => {
+			const status = res.status.toString();
+			switch (status[0]) {
+				case '1': res.kind = 'informational'; break;
+				case '2': res.kind = 'success'; break;
+				case '3': res.kind = 'redirection'; break;
+				case '4': res.kind = 'client-error'; break;
+				case '5': res.kind = 'server-error'; break;
+			}
+			this.logs.some(log => {
+				if (log.id === res.id) {
+					log.res = res;
+					return true;
+				}
+			});
+			this.update();
+
+			if (this.opts.ui.follow) {
+				window.scroll(0, document.body.offsetHeight);
+			}
 		};
 	</script>
 </accesses-logs>
