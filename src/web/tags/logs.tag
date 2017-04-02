@@ -22,8 +22,8 @@
 					<span class="hash" if={ _url.hash }>{ _url.hash }</span>
 				</td>
 				<td class="ua" title={ headers['user-agent'] }>{ headers['user-agent'] || '' }</td>
-				<td class="ip" title={ remoteaddr }>{ remoteaddr }</td>
-				<td class="res" title={ !res ? '(pending)' : `${res.status} (${res.time.toFixed(3)}ms)` }>
+				<td class="ip" title={ remoteaddr } style="color:{ fg }"><span style="background:{ bg }">{ remoteaddr }</span></td>
+				<td class="res" title={ !res ? '(pending)' : res.status + ' (' + res.time.toFixed(3) + 'ms)' }>
 					<span class="pending" if={ !res }>(pending)</span>
 					<span class="status { res.kind }" if={ res }>{ res.status }</span>
 					<span class="time" if={ res }>({ res.time.toFixed(0) }ms)</span>
@@ -202,6 +202,8 @@
 	</style>
 
 	<script>
+		const seedrandom = require('seedrandom');
+
 		this.mixin('stream');
 
 		this.logs = [];
@@ -218,7 +220,14 @@
 
 		this.onRequest = req => {
 			console.log(req);
+			const random = seedrandom(req.remoteaddr);
+			const r = Math.floor(random() * 255);
+			const g = Math.floor(random() * 255);
+			const b = Math.floor(random() * 255);
+			const luma = (0.2126 * r) + (0.7152 * g) + (0.0722 * b); // SMPTE C, Rec. 709 weightings
 			req._url = new URL(req.url);
+			req.bg = `rgb(${r}, ${g}, ${b})`;
+			req.fg = luma >= 165 ? '#000' : '#fff';
 			this.logs.push(req);
 			this.update();
 		};

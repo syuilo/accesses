@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "2.0.0-beta6",
+  "version": "2.0.0-beta7",
   "description": "HTTP request logger middleware",
   "keywords": [
     "http",
@@ -43,7 +43,7 @@
     "pug": "2.0.0-beta11",
     "reconnecting-websocket": "3.0.3",
     "redis": "2.7.1",
-    "seed-color": "1.0.0",
+    "seedrandom": "2.4.2",
     "uuid": "^3.0.1",
     "ws": "2.2.2"
   }
