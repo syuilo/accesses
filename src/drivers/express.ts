@@ -11,7 +11,7 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 	accesses.captureRequest({
 		id: id,
 		date: new Date(),
-		url: req.url,
+		url: `${req.protocol}://${req.host}${req.originalUrl}`,
 		remoteaddr: remoteaddr,
 		httpVersion: req.httpVersion,
 		method: req.method,

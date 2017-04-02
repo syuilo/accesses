@@ -85,8 +85,9 @@ export default class Accesses {
 	private emit(type: string, data: any): void {
 		// Broadcast
 		this.wss.clients
-			.filter(client => client.readyState === ws.OPEN)
+			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
+				if (client.readyState !== ws.OPEN) return;
 				client.send(JSON.stringify({ type, data }));
 			});
 	}
