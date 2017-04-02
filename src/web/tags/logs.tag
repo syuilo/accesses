@@ -12,14 +12,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs } tabindex="-1">
-				<td class="date">{ date }</td>
-				<td class="method { method.toLowerCase() }">{ method }</td>
-				<td class="host">{ url.hostname }</td>
-				<td class="path">{ url.pathname }<span class="query" if={ url.search }>{ url.search }</span><span class="hash" if={ url.hash }>{ url.hash }</span></td>
-				<td class="ua">{ headers['user-agent'] || '' }</td>
-				<td class="ip">{ remoteaddr }</td>
-				<td class="res">
+			<tr each={ logs } tabindex="-1" id={ id }>
+				<td class="date" title={ date.toLocaleString() }>{ date }</td>
+				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
+				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
+				<td class="path" title={ url }>
+					<span class="path">{ _url.pathname }</span>
+					<span class="query" if={ _url.search }>{ _url.search }</span>
+					<span class="hash" if={ _url.hash }>{ _url.hash }</span>
+				</td>
+				<td class="ua" title={ headers['user-agent'] }>{ headers['user-agent'] || '' }</td>
+				<td class="ip" title={ remoteaddr }>{ remoteaddr }</td>
+				<td class="res" title={ !res ? '(pending)' : `${res.status} (${res.time.toFixed(3)}ms)` }>
 					<span class="pending" if={ !res }>(pending)</span>
 					<span class="status { res.kind }" if={ res }>{ res.status }</span>
 					<span class="time" if={ res }>({ res.time.toFixed(0) }ms)</span>
@@ -214,7 +218,7 @@
 
 		this.onRequest = req => {
 			console.log(req);
-			req.url = new URL(req.url);
+			req._url = new URL(req.url);
 			this.logs.push(req);
 			this.update();
 		};
