@@ -108,7 +108,7 @@ export default class Server {
 			server: server
 		});
 
-		event.sub(this.broadcastToClientStream);
+		event.sub(this.broadcast);
 
 		if (cluster.isMaster) {
 			reportStatus();
@@ -122,7 +122,7 @@ export default class Server {
 	 * @param message メッセージ
 	 */
 	@autobind
-	private broadcastToClientStream(message: object): void {
+	private broadcast(message: object): void {
 		this.wss.clients
 			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
