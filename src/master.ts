@@ -1,5 +1,5 @@
 import * as cluster from 'cluster';
-import publish from './publish';
+import * as event from './event';
 import reportStatus from './report-status';
 
 /**
@@ -14,7 +14,7 @@ export default function() {
 		console.log('received message from worker');
 
 		// Broadcast the message to all workers
-		publish(message);
+		event.pub(message);
 	});
 
 	reportStatus();

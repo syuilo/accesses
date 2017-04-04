@@ -3,8 +3,7 @@ import * as http from 'http';
 import * as ws from 'ws';
 import * as express from 'express';
 
-import publish from './publish';
-import subscribe from './subscribe';
+import * as event from './event';
 import reportStatus from './report-status';
 import autobind from './helpers/autobind';
 
@@ -82,7 +81,7 @@ export default class Accesses {
 			server: server
 		});
 
-		subscribe(this.broadcastToClientStream);
+		event.sub(this.broadcastToClientStream);
 
 		if (cluster.isMaster) {
 			reportStatus();
@@ -111,7 +110,7 @@ export default class Accesses {
 	 */
 	@autobind
 	public captureRequest(req: Request): void {
-		publish('request', req);
+		event.pub('request', req);
 	}
 
 	/**
@@ -120,6 +119,6 @@ export default class Accesses {
 	 */
 	@autobind
 	public captureResponse(res: Response): void {
-		publish('response', res);
+		event.pub('response', res);
 	}
 }

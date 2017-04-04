@@ -1,5 +1,5 @@
-import publish from './publish';
-import getInfo from './helpers/get-info';
+import * as os from 'os';
+import * as event from './event';
 
 /**
  * Report status regularly
@@ -7,9 +7,15 @@ import getInfo from './helpers/get-info';
 export default function() {
 	setInterval(() => {
 		const info = getInfo();
-		publish({
+		event.pub({
 			type: 'info',
 			data: info
 		});
 	}, 1000);
 }
+
+const getInfo = () => ({
+	machine: os.hostname(),
+	pid: process.pid,
+	uptime: process.uptime()
+});

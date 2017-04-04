@@ -3,7 +3,7 @@ import * as cluster from 'cluster';
 /**
  * Publish event
  */
-export default function(x, y?) {
+export function pub(x, y?) {
 	const message = arguments.length == 1 ? x : {
 		type: x,
 		data: y
@@ -26,4 +26,17 @@ export default function(x, y?) {
 			origin: 'syuilo/accesses'
 		}));
 	}
+}
+
+/**
+ * Subscribe event
+ * @param handler
+ */
+export function sub(handler) {
+	process.on('message', message => {
+		// Ignore non accesses messages
+		if (message.origin != 'syuilo/accesses') return;
+		handler(message);
+	});
+	process.on('syuilo/accesses', handler);
 }
