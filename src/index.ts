@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-import Accesses from './core';
+import Accesses from './server';
 import _master from './master';
 
 export default Accesses;
