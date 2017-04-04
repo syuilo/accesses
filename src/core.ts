@@ -1,3 +1,7 @@
+/**
+ * Server
+ */
+
 import * as cluster from 'cluster';
 import * as http from 'http';
 import * as ws from 'ws';
