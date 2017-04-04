@@ -1,5 +1,5 @@
 ![accesses](./accesses.png)
-===========================
+================================================================
 
 [![][npm-badge]][npm-link]
 [![][travis-badge]][travis-link]
@@ -14,7 +14,7 @@ A graphical access logger for [Node](https://github.com/nodejs/node).
 ![](./capture.png)
 
 Features
---------
+----------------------------------------------------------------
 * Frameworks support
   * [express](https://github.com/expressjs/express)
   * [koa](https://github.com/koajs/koa) (todo)
@@ -23,32 +23,32 @@ Features
 * Databases support (todo)
 
 Install
--------
+----------------------------------------------------------------
 ``` shell
 $ npm install accesses --save
 ```
 
 Usage
------
-### With [express](https://github.com/expressjs/express)
-
+----------------------------------------------------------------
+### Init accesses
 ``` javascript
-const express = require('express');
-const Accesses = require('accesses');
-
-const app = express();
+import Accesses from 'accesses';
 
 // Set up
 const accesses = new Accesses({
 	appName: 'My Web Service',
-	port: 616,
-	redis: {
-		host: 'localhost',
-		port: 6379
-	}
+	port: 616
 });
+```
 
-// Register middleware
+### Register accesses to a framework as a middleware
+#### [express](https://github.com/expressjs/express)
+``` javascript
+import * as express from 'express';
+
+const app = express();
+
+// Register as a middleware
 app.use(accesses.express);
 
 app.get('/', (req, res) => {
@@ -58,10 +58,37 @@ app.get('/', (req, res) => {
 app.listen(80);
 ```
 
+### If you use the cluster...
+You must be call `master` function at master process. e.g.:
+``` javascript
+import * as cluster from 'cluster';
+import { master } from 'accesses';
+
+// Master
+if (cluster.isMaster) {
+	// Count the machine's CPUs
+	const cpuCount = require('os').cpus().length;
+
+	// Create a worker for each CPU
+	for (let i = 0; i < cpuCount; i++) {
+		cluster.fork();
+	}
+
+	// Call master function
+	master();
+}
+// Workers
+else {
+	// your worker code
+}
+
+```
+
+### That is it.
 Now, we can monitor accesses on localhost:616
 
 Reference
----------
+----------------------------------------------------------------
 ### options
 | Property     | Type     | Description                      |
 | ------------ | -------- | -------------------------------- |
@@ -70,11 +97,11 @@ Reference
 | **store**    | *Store*  | todo |
 
 Contribution
-------------
+----------------------------------------------------------------
 Issue reports, feature requests and pull requests are welcome!
 
 License
--------
+----------------------------------------------------------------
 [MIT](LICENSE)
 
 [npm-link]:        https://www.npmjs.com/package/accesses

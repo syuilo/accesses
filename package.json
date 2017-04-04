@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "HTTP request logger middleware",
   "keywords": [
     "http",
@@ -19,7 +19,6 @@
     "@types/gulp": "4.0.2",
     "@types/gulp-typescript": "0.0.33",
     "@types/on-finished": "2.2.29",
-    "@types/redis": "0.12.36",
     "@types/uuid": "2.0.29",
     "@types/webpack": "2.2.14",
     "@types/ws": "0.0.39",
@@ -43,7 +42,6 @@
     "proxy-addr": "1.1.4",
     "pug": "2.0.0-beta11",
     "reconnecting-websocket": "3.0.3",
-    "redis": "2.7.1",
     "seedrandom": "2.4.2",
     "uuid": "3.0.1",
     "ws": "2.2.2"
