@@ -1,3 +1,7 @@
+/**
+ * event system
+ */
+
 import * as cluster from 'cluster';
 
 const origin = 'syuilo/accesses';
