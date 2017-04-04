@@ -38,11 +38,34 @@ export type Request = {
 	 */
 	id: string;
 
+	/**
+	 * Remote address
+	 */
 	remoteaddr: string;
+
+	/**
+	 * HTTP version
+	 */
 	httpVersion: string;
+
+	/**
+	 * HTTP method
+	 */
 	method: string;
+
+	/**
+	 * Requested URL
+	 */
 	url: string;
+
+	/**
+	 * Request headers
+	 */
 	headers: any;
+
+	/**
+	 * Requedted at
+	 */
 	date: Date;
 };
 
@@ -63,7 +86,7 @@ export type Response = {
 	time: number;
 };
 
-export default class Accesses {
+export default class Server {
 	private wss: ws.Server;
 
 	// Drivers
