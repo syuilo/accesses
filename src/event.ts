@@ -9,12 +9,20 @@ const origin = 'syuilo/accesses';
  */
 export function init() {
 	// When receiving a message from workers
-	cluster.on('message', (sender, message) => {
+	cluster.on('message', (sender, message) => broadcast(message));
+	// When receiving a message from the master
+	process.on('message', broadcast);
+
+	function broadcast(message) {
 		// Ignore non accesses messages
 		if (message.origin != origin) return;
 
-		broadcast(message);
-	});
+		// Broadcast the message to all workers
+		for (const id in cluster.workers) {
+			const worker = cluster.workers[id];
+			worker.send(message);
+		}
+	}
 }
 
 /**
@@ -24,12 +32,7 @@ export function pub(type, data) {
 	const message = { type, data, origin };
 
 	if (cluster.isMaster) {
-		// クラスタ上で動いている場合
-		if (Object.keys(cluster.workers).length > 0) {
-			broadcast(message);
-		} else {
-			process.emit('message', message);
-		}
+		process.emit('message', message);
 	} else {
 		process.send(message);
 	}
@@ -46,12 +49,4 @@ export function sub(handler) {
 		delete message.origin;
 		handler(message);
 	});
-}
-
-function broadcast(message) {
-	// Broadcast the message to all workers
-	for (const id in cluster.workers) {
-		const worker = cluster.workers[id];
-		worker.send(message);
-	}
 }
