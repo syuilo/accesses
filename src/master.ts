@@ -1,18 +1,22 @@
 import * as cluster from 'cluster';
-import { id } from './const';
+import publish from './publish';
+import reportStatus from './report-status';
 
 /**
  * Init master
  */
 export default function() {
+	// When receiving a message from workers
 	cluster.on('message', (sender, message) => {
 		// Ignore non accesses messages
-		if (message.substr(0, id.length) != id) return;
+		if (message.origin != 'syuilo/accesses') return;
+
+		console.log('received message from worker');
 
 		// Broadcast the message to all workers
-		for (const id in cluster.workers) {
-			const worker = cluster.workers[id];
-			worker.send(message);
-		}
+		publish(message);
 	});
+
+	reportStatus();
 }
+

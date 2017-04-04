@@ -3,9 +3,10 @@ import * as http from 'http';
 import * as ws from 'ws';
 import * as express from 'express';
 
+import publish from './publish';
+import subscribe from './subscribe';
+import reportStatus from './report-status';
 import autobind from './helpers/autobind';
-import getInfo from './helpers/get-info';
-import { id } from './const';
 
 // Drivers
 import expressDriver from './drivers/express';
@@ -62,8 +63,6 @@ export type Response = {
 export default class Accesses {
 	private wss: ws.Server;
 
-	private infoClock: NodeJS.Timer;
-
 	// Drivers
 	public express: any;
 
@@ -83,63 +82,27 @@ export default class Accesses {
 			server: server
 		});
 
-		if (cluster.isWorker) {
-			process.on('message', this.onMessage);
-		}
+		subscribe(this.broadcastToClientStream);
 
-		this.infoClock = setInterval(this.emitInfo, 1000);
+		if (cluster.isMaster) {
+			reportStatus();
+		}
 
 		this.express = expressDriver(this);
 	}
 
 	/**
-	 * イベントを受け取った時のハンドラ
+	 * クライアントにメッセージをブロードキャストします
 	 * @param message メッセージ
 	 */
 	@autobind
-	private onMessage(message): void {
-		// Ignore non accesses messages
-		if (message.substr(0, id.length) != id) return;
-
-		message = message.substr(id.length);
-		this.broadcastToClientStream(message);
-	}
-
-	/**
-	 * クライアントにメッセージをブロードキャストします
-	 * @param msg メッセージ
-	 */
-	@autobind
-	private broadcastToClientStream(msg: string): void {
+	private broadcastToClientStream(message: object): void {
 		this.wss.clients
 			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
 				if (client.readyState !== ws.OPEN) return;
-				client.send(msg);
+				client.send(JSON.stringify(message));
 			});
-	}
-
-	/**
-	 * イベントを公開します
-	 * @param type イベント名
-	 * @param data データ
-	 */
-	@autobind
-	private emit(type: string, data: any): void {
-		const msg = id + JSON.stringify({ type, data });
-		if (cluster.isMaster) {
-			this.onMessage(msg);
-		} else {
-			process.send(msg);
-		}
-	}
-
-	@autobind
-	private emitInfo(): void {
-		this.broadcastToClientStream(JSON.stringify({
-			type: 'info',
-			data: getInfo()
-		}));
 	}
 
 	/**
@@ -148,7 +111,7 @@ export default class Accesses {
 	 */
 	@autobind
 	public captureRequest(req: Request): void {
-		this.emit('request', req);
+		publish('request', req);
 	}
 
 	/**
@@ -157,6 +120,6 @@ export default class Accesses {
 	 */
 	@autobind
 	public captureResponse(res: Response): void {
-		this.emit('response', res);
+		publish('response', res);
 	}
 }
