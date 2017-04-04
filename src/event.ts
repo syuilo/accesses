@@ -13,11 +13,7 @@ export function init() {
 		// Ignore non accesses messages
 		if (message.origin != origin) return;
 
-		// Broadcast the message to all workers
-		for (const id in cluster.workers) {
-			const worker = cluster.workers[id];
-			worker.send(message);
-		}
+		broadcast(message);
 	});
 }
 
@@ -30,11 +26,7 @@ export function pub(type, data) {
 	if (cluster.isMaster) {
 		// クラスタ上で動いている場合
 		if (Object.keys(cluster.workers).length > 0) {
-			// Each all workers
-			for (const id in cluster.workers) {
-				const worker = cluster.workers[id];
-				worker.send(message);
-			}
+			broadcast(message);
 		} else {
 			process.emit('message', message);
 		}
@@ -54,4 +46,12 @@ export function sub(handler) {
 		delete message.origin;
 		handler(message);
 	});
+}
+
+function broadcast(message) {
+	// Broadcast the message to all workers
+	for (const id in cluster.workers) {
+		const worker = cluster.workers[id];
+		worker.send(message);
+	}
 }
