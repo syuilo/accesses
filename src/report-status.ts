@@ -7,10 +7,7 @@ import * as event from './event';
 export default function() {
 	setInterval(() => {
 		const info = getInfo();
-		event.pub({
-			type: 'info',
-			data: info
-		});
+		event.pub('info', info);
 	}, 1000);
 }
 

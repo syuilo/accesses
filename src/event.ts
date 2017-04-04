@@ -16,7 +16,7 @@ export function init() {
 		// Broadcast the message to all workers
 		for (const id in cluster.workers) {
 			const worker = cluster.workers[id];
-			worker.send(Object.assign(message, { origin }));
+			worker.send(message);
 		}
 	});
 }
@@ -24,11 +24,8 @@ export function init() {
 /**
  * Publish event
  */
-export function pub(x, y?) {
-	const message = arguments.length == 1 ? x : {
-		type: x,
-		data: y
-	};
+export function pub(type, data) {
+	const message = { type, data, origin };
 
 	if (cluster.isMaster) {
 		// クラスタ上で動いている場合
@@ -36,13 +33,13 @@ export function pub(x, y?) {
 			// Each all workers
 			for (const id in cluster.workers) {
 				const worker = cluster.workers[id];
-				worker.send(Object.assign(message, { origin }));
+				worker.send(message);
 			}
 		} else {
-			process.emit(origin, message);
+			process.emit('message', message);
 		}
 	} else {
-		process.send(Object.assign(message, { origin }));
+		process.send(message);
 	}
 }
 
@@ -54,7 +51,7 @@ export function sub(handler) {
 	process.on('message', message => {
 		// Ignore non accesses messages
 		if (message.origin != origin) return;
+		delete message.origin;
 		handler(message);
 	});
-	process.on(origin, handler);
 }
