@@ -66,13 +66,7 @@ import { master } from 'accesses';
 
 // Master
 if (cluster.isMaster) {
-	// Count the machine's CPUs
-	const cpuCount = require('os').cpus().length;
-
-	// Create a worker for each CPU
-	for (let i = 0; i < cpuCount; i++) {
-		cluster.fork();
-	}
+	// your master code
 
 	// Call master function
 	master();
