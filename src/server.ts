@@ -24,12 +24,6 @@ export type Options = {
 	 * The port number you want to provide the Web interface
 	 */
 	port: number;
-
-	/**
-	 * Whether an IP addresses is hashed and
-	 * displayed on the Web interface
-	 */
-	hashIp: boolean;
 };
 
 export type Request = {

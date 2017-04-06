@@ -3,9 +3,9 @@
 		<div>
 			<div class="left">
 				<p class="app">{ app }</p>
-				<p class="machine">{ status.machine }</p>
-				<p class="pid">{ status.pid }</p>
-				<p class="uptime">{ status.uptime }</p>
+				<p class="machine">MACHINE: { status.machine }</p>
+				<p class="pid">PID: { status.pid }</p>
+				<p class="uptime">UP: { status.uptime }s</p>
 				<p class="now">{ now }</p>
 			</div>
 			<div class="right">
@@ -16,8 +16,8 @@
 			</div>
 		</div>
 		<div>
-			<span class="cpu" if={ status }>CPU: { (status.cpuUsage * 100).toFixed(1) }%</span>
-			<span class="mem" if={ status }>MEM: { (100 - (100 * status.freemem / status.totalmem)).toFixed(1) }% ({ (status.totalmem / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((status.totalmem - status.freemem) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (status.freemem / 1024 / 1024 / 1024).toFixed(1) }GB free)</span>
+			<accesses-cpu />
+			<accesses-mem />
 		</div>
 	</header>
 
@@ -135,34 +135,16 @@
 						color var(--header-machine-foreground)
 						border-right solid 1px var(--header-separator-color)
 
-						&:before
-							content "MACHINE:"
-							margin-right 4px
-							color var(--header-machine-caption-foreground)
-
 					.pid
 						padding 0 12px
 						color var(--header-pid-foreground)
 						border-right solid 1px var(--header-separator-color)
-
-						&:before
-							content "PID:"
-							margin-right 4px
-							color var(--header-pid-caption-foreground)
 
 					.uptime
 						padding 0 12px
 						min-width 12em
 						color var(--header-uptime-caption-foreground)
 						border-right solid 1px var(--header-separator-color)
-
-						&:before
-							content "UPTIME:"
-							margin-right 4px
-							color var(--header-uptime-caption-foreground)
-
-						&:after
-							content "s"
 
 					.now
 						padding 0 12px
@@ -221,11 +203,10 @@
 				> div:nth-child(2)
 					border-top solid 1px var(--header-separator-color)
 
-					> span
+					> *
 						display inline-block
 						padding 0 12px
 						line-height 32px
-						color #fff
 						border-right solid 1px var(--header-separator-color)
 
 			> table
@@ -435,9 +416,7 @@
 		};
 
 		this.onStatus = status => {
-			this.update({
-				status: Object.assign(this.status, status)
-			});
+			this.update({ status });
 		};
 
 		this.onRequest = req => {
