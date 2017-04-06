@@ -39,6 +39,7 @@
     "animejs": "2.0.2",
     "express": "4.15.2",
     "on-finished": "2.3.0",
+    "os-utils": "0.0.14",
     "proxy-addr": "1.1.4",
     "pug": "2.0.0-beta11",
     "reconnecting-websocket": "3.0.3",

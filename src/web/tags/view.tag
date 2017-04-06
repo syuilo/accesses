@@ -1,17 +1,23 @@
 <accesses-view>
 	<header>
-		<div class="left">
-			<p class="app">{ app }</p>
-			<p class="machine">{ machine }</p>
-			<p class="pid">{ pid }</p>
-			<p class="uptime">{ uptime }</p>
-			<p class="now">{ now }</p>
+		<div>
+			<div class="left">
+				<p class="app">{ app }</p>
+				<p class="machine">{ status.machine }</p>
+				<p class="pid">{ status.pid }</p>
+				<p class="uptime">{ status.uptime }</p>
+				<p class="now">{ now }</p>
+			</div>
+			<div class="right">
+				<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
+				<button class="clear" onclick={ clear }><i class="fa fa-times"></i>Clear</button>
+				<button class="follow { enable: follow }" onclick={ toggleFollow }><i class="fa fa-sort-amount-desc"></i>Follow</button>
+				<button class="rec { enable: rec }" onclick={ toggleRec }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>REC</button>
+			</div>
 		</div>
-		<div class="right">
-			<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
-			<button class="clear" onclick={ clear }><i class="fa fa-times"></i>Clear</button>
-			<button class="follow { enable: follow }" onclick={ toggleFollow }><i class="fa fa-sort-amount-desc"></i>Follow</button>
-			<button class="rec { enable: rec }" onclick={ toggleRec }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>REC</button>
+		<div>
+			<span class="cpu" if={ status }>CPU: { (status.cpuUsage * 100).toFixed(1) }%</span>
+			<span class="mem" if={ status }>MEM: { (100 - (100 * status.freemem / status.totalmem)).toFixed(1) }% ({ (status.totalmem / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((status.totalmem - status.freemem) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (status.freemem / 1024 / 1024 / 1024).toFixed(1) }GB free)</span>
 		</div>
 	</header>
 
@@ -60,156 +66,167 @@
 				z-index 10000
 				top 0
 				left 0
-				width 100%
 				font-size 0.8em
 				background var(--header-background)
 
-				> .left, > .right
-					background inherit
-					white-space nowrap
+				> div:nth-child(1)
 
-					> *
-						display inline-block
-						line-height 32px
-						vertical-align top
+					> .left, > .right
+						background inherit
+						white-space nowrap
 
-				> .left
-					position relative
+						> *
+							display inline-block
+							line-height 32px
+							vertical-align top
 
-				> .right
-					position absolute
-					top 0
-					right 0
+					> .left
+						position relative
 
-					button, a
-						-webkit-appearance none
-						-moz-appearance none
-						appearance none
-						user-select none
-						cursor pointer
-						padding 0 12px
+					> .right
+						position absolute
+						top 0
+						right 0
+
+						button, a
+							-webkit-appearance none
+							-moz-appearance none
+							appearance none
+							user-select none
+							cursor pointer
+							padding 0 12px
+							margin 0
+							font-size 1em
+							text-decoration none
+							color var(--header-button-foreground)
+							outline none
+							border none
+							border-left solid 1px var(--header-separator-color)
+							border-radius 0
+							box-shadow none
+							background transparent
+							transition all .3s ease
+
+							*
+								pointer-events none
+
+							> i
+								margin-right 4px
+
+							&:hover
+								color var(--header-button-hover-foreground)
+								transition all 0.1s ease
+
+							&:active
+								transition all 0s ease
+
+					p
 						margin 0
-						font-size 1em
-						text-decoration none
-						color var(--header-button-foreground)
-						outline none
-						border none
-						border-left solid 1px var(--header-separator-color)
-						border-radius 0
-						box-shadow none
-						background transparent
-						transition all .3s ease
+						padding 0
 
-						*
-							pointer-events none
+					.app
+						padding 0 12px
+						font-weight bold
+						color var(--header-title-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					.machine
+						padding 0 12px
+						color var(--header-machine-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+						&:before
+							content "MACHINE:"
+							margin-right 4px
+							color var(--header-machine-caption-foreground)
+
+					.pid
+						padding 0 12px
+						color var(--header-pid-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+						&:before
+							content "PID:"
+							margin-right 4px
+							color var(--header-pid-caption-foreground)
+
+					.uptime
+						padding 0 12px
+						min-width 12em
+						color var(--header-uptime-caption-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+						&:before
+							content "UPTIME:"
+							margin-right 4px
+							color var(--header-uptime-caption-foreground)
+
+						&:after
+							content "s"
+
+					.now
+						padding 0 12px
+						color var(--header-now-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+						&:before
+							content "\f017"
+							font-family FontAwesome
+							margin-right 6px
+
+					.follow
+						color var(--header-follow-foreground)
+						transition all 0.2s ease
 
 						> i
 							margin-right 4px
 
+						&.enable
+							color #c1e31c
+
+							&:hover
+								color lighten(#c1e31c, 30%)
+								transition all 0.1s ease
+
+							&:active
+								color darken(#c1e31c, 20%)
+								transition all 0s ease
+
+					.rec
+						color var(--header-rec-foreground)
+						background #000
+						transition all 0.2s ease
+
 						&:hover
-							color var(--header-button-hover-foreground)
+							background #111
 							transition all 0.1s ease
 
 						&:active
+							background #222
 							transition all 0s ease
 
-				p
-					margin 0
-					padding 0
+						&.enable
+							color #fff
+							background #f00
 
-				.app
-					padding 0 12px
-					font-weight bold
-					color var(--header-title-foreground)
-					border-right solid 1px var(--header-separator-color)
+							&:hover
+								background #f22
 
-				.machine
-					padding 0 12px
-					color var(--header-machine-foreground)
-					border-right solid 1px var(--header-separator-color)
+							&:active
+								background #e00
 
-					&:before
-						content "MACHINE:"
-						margin-right 4px
-						color var(--header-machine-caption-foreground)
+						> i
+							margin-right 4px
 
-				.pid
-					padding 0 12px
-					color var(--header-pid-foreground)
-					border-right solid 1px var(--header-separator-color)
+				> div:nth-child(2)
+					border-top solid 1px var(--header-separator-color)
 
-					&:before
-						content "PID:"
-						margin-right 4px
-						color var(--header-pid-caption-foreground)
-
-				.uptime
-					padding 0 12px
-					min-width 12em
-					color var(--header-uptime-caption-foreground)
-					border-right solid 1px var(--header-separator-color)
-
-					&:before
-						content "UPTIME:"
-						margin-right 4px
-						color var(--header-uptime-caption-foreground)
-
-					&:after
-						content "s"
-
-				.now
-					padding 0 12px
-					color var(--header-now-foreground)
-					border-right solid 1px var(--header-separator-color)
-
-					&:before
-						content "\f017"
-						font-family FontAwesome
-						margin-right 6px
-
-				.follow
-					color var(--header-follow-foreground)
-					transition all 0.2s ease
-
-					> i
-						margin-right 4px
-
-					&.enable
-						color #c1e31c
-
-						&:hover
-							color lighten(#c1e31c, 30%)
-							transition all 0.1s ease
-
-						&:active
-							color darken(#c1e31c, 20%)
-							transition all 0s ease
-
-				.rec
-					color var(--header-rec-foreground)
-					background #000
-					transition all 0.2s ease
-
-					&:hover
-						background #111
-						transition all 0.1s ease
-
-					&:active
-						background #222
-						transition all 0s ease
-
-					&.enable
+					> span
+						display inline-block
+						padding 0 12px
+						line-height 32px
 						color #fff
-						background #f00
-
-						&:hover
-							background #f22
-
-						&:active
-							background #e00
-
-					> i
-						margin-right 4px
+						border-right solid 1px var(--header-separator-color)
 
 			> table
 				width 100%
@@ -241,7 +258,7 @@
 					display block
 					position sticky
 					z-index 1
-					top 32px
+					top 65px
 					left 0
 					width 100%
 					font-size 0.8em
@@ -368,10 +385,11 @@
 		this.follow = true;
 		this.rec = true;
 		this.logs = [];
+		this.status = {};
 
 		this.on('mount', () => {
 			window.addEventListener('scroll', this.onScroll);
-			this.stream.on('info', this.onInfo);
+			this.stream.on('status', this.onStatus);
 			this.stream.on('request', this.onRequest);
 			this.stream.on('response', this.onResponse);
 			this.clock = setInterval(this.tick, 1000);
@@ -379,7 +397,7 @@
 
 		this.on('unmount', () => {
 			window.removeEventListener('scroll', this.onScroll);
-			this.stream.off('info', this.onInfo);
+			this.stream.off('status', this.onStatus);
 			this.stream.off('request', this.onRequest);
 			this.stream.off('response', this.onResponse);
 			clearInterval(this.clock);
@@ -416,17 +434,13 @@
 			});
 		};
 
-		this.onInfo = info => {
-			console.log(info);
+		this.onStatus = status => {
 			this.update({
-				machine: info.machine,
-				pid: info.pid,
-				uptime: info.uptime
+				status: Object.assign(this.status, status)
 			});
 		};
 
 		this.onRequest = req => {
-			console.log(req);
 			if (!this.rec) return;
 			const random = seedrandom(req.remoteaddr);
 			const r = Math.floor(random() * 255);

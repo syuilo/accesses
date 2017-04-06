@@ -1,4 +1,5 @@
 import * as os from 'os';
+const osUtils = require('os-utils');
 import * as event from './event';
 
 /**
@@ -6,13 +7,15 @@ import * as event from './event';
  */
 export default function() {
 	setInterval(() => {
-		const info = getInfo();
-		event.pub('info', info);
+		osUtils.cpuUsage(cpuUsage => {
+			event.pub('status', {
+				machine: os.hostname(),
+				pid: process.pid,
+				uptime: process.uptime(),
+				cpuUsage: cpuUsage,
+				totalmem: os.totalmem(),
+				freemem: os.freemem()
+			});
+		});
 	}, 1000);
 }
-
-const getInfo = () => ({
-	machine: os.hostname(),
-	pid: process.pid,
-	uptime: process.uptime()
-});
