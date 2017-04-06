@@ -15,9 +15,7 @@ const origin = 'syuilo/accesses';
  * クラスタ上で動いてない場合、この関数の呼出は必要ありません。
  */
 export function init(): void {
-	if (Object.keys(cluster.workers).length === 0) {
-		throw 'Do not call this function in non-clustering enviroment.';
-	} else if (cluster.isWorker) {
+	if (cluster.isWorker) {
 		throw 'Do not call this function in a worker process.';
 	}
 
