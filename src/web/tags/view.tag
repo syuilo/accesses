@@ -3,6 +3,7 @@
 		<div>
 			<div class="left">
 				<p class="app">{ app }</p>
+				<accesses-node />
 				<p class="machine">MACHINE: { status.machine }</p>
 				<p class="pid">PID: { status.pid }</p>
 				<p class="uptime">UP: { status.uptime }s</p>
@@ -129,6 +130,11 @@
 						padding 0 12px
 						font-weight bold
 						color var(--header-title-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					accesses-node
+						padding 0 12px
+						color var(--header-machine-foreground)
 						border-right solid 1px var(--header-separator-color)
 
 					.machine

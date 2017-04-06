@@ -11,6 +11,11 @@ export default function() {
 		osUtils.cpuUsage(cpuUsage => {
 			const disk = diskusage.checkSync(os.platform() == 'win32' ? 'c:' : '/');
 			event.pub('status', {
+				node: {
+					release: (process as any).release.name,
+					lts: (process as any).release.lts,
+					version: process.version
+				},
 				machine: os.hostname(),
 				pid: process.pid,
 				uptime: process.uptime(),

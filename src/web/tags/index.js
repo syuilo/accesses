@@ -4,3 +4,4 @@ require('./meter.tag');
 require('./cpu.tag');
 require('./mem.tag');
 require('./disk.tag');
+require('./node.tag');
