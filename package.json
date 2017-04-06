@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "HTTP request logger middleware",
   "keywords": [
     "http",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "animejs": "2.0.2",
+    "diskusage": "0.2.1",
     "express": "4.15.2",
     "on-finished": "2.3.0",
     "os-utils": "0.0.14",

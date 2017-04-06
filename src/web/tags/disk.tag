@@ -1,5 +1,5 @@
-<accesses-mem>
-	<span>MEM: { (100 - (100 * free / total)).toFixed(1) }% ({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free) <accesses-meter ref="meter" max={ total } /></span>
+<accesses-disk>
+	<span>DISK: { (100 - (100 * free / total)).toFixed(1) }% ({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free) <accesses-meter ref="meter" max={ total } /></span>
 
 	<style>
 		:scope
@@ -20,8 +20,8 @@
 
 		this.onStatus = status => {
 			this.update({
-				total: status.mem.total,
-				free: status.mem.free
+				total: status.disk.total,
+				free: status.disk.free
 			});
 
 			this.refs.meter.update({
@@ -30,4 +30,4 @@
 			});
 		};
 	</script>
-</accesses-mem>
+</accesses-disk>

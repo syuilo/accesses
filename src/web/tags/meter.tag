@@ -5,6 +5,7 @@
 			display inline-block
 			width 128px
 			height 8px
+			background #222
 
 			> div
 				height 100%

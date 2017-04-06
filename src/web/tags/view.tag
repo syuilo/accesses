@@ -18,6 +18,7 @@
 		<div>
 			<accesses-cpu />
 			<accesses-mem />
+			<accesses-disk />
 		</div>
 	</header>
 
