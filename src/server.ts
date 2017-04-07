@@ -102,7 +102,7 @@ export default class Server {
 			server: server
 		});
 
-		event.sub(this.broadcast);
+		event.on('*', this.broadcast);
 
 		if (cluster.isMaster) {
 			reportStatus();
@@ -132,7 +132,7 @@ export default class Server {
 	 */
 	@autobind
 	public captureRequest(req: Request): void {
-		event.pub('request', req);
+		event.emit('request', req);
 	}
 
 	/**
@@ -141,6 +141,6 @@ export default class Server {
 	 */
 	@autobind
 	public captureResponse(res: Response): void {
-		event.pub('response', res);
+		event.emit('response', res);
 	}
 }

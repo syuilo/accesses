@@ -10,7 +10,7 @@ export default function() {
 	setInterval(() => {
 		osUtils.cpuUsage(cpuUsage => {
 			const disk = diskusage.checkSync(os.platform() == 'win32' ? 'c:' : '/');
-			event.pub('status', {
+			event.emit('status', {
 				node: {
 					release: (process as any).release.name,
 					lts: (process as any).release.lts,
