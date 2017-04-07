@@ -1,7 +1,7 @@
 import * as os from 'os';
 const osUtils = require('os-utils');
 import * as diskusage from 'diskusage';
-import * as event from './event';
+import event from './event';
 
 /**
  * Report status regularly

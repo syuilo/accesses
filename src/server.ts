@@ -6,8 +6,8 @@ import * as cluster from 'cluster';
 import * as http from 'http';
 import * as ws from 'ws';
 import * as express from 'express';
+import event from './event';
 
-import * as event from './event';
 import reportStatus from './report-status';
 import autobind from './helpers/autobind';
 
@@ -113,15 +113,16 @@ export default class Server {
 
 	/**
 	 * クライアントにメッセージをブロードキャストします
+	 * @param type    イベント
 	 * @param message メッセージ
 	 */
 	@autobind
-	private broadcast(message: object): void {
+	private broadcast(type: string, data: object): void {
 		this.wss.clients
 			//.filter(client => client.readyState === ws.OPEN)
 			.forEach(client => {
 				if (client.readyState !== ws.OPEN) return;
-				client.send(JSON.stringify(message));
+				client.send(JSON.stringify({ type, data }));
 			});
 	}
 
