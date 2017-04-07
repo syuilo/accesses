@@ -1,10 +1,12 @@
 <accesses-cpu>
-	<span>CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }% <accesses-meter ref="meter" max={ 1 } /></span>
+	<accesses-meter ref="meter" max={ 1 } /><span> CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }%</span>
 
 	<style>
 		:scope
 			display inline-block
+			min-width 10em
 			color #fff
+			background #151f31
 	</style>
 
 	<script>

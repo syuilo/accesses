@@ -4,10 +4,11 @@
 	<style>
 		:scope
 			display inline-block
+			vertical-align bottom
 			position relative
-			width 128px
-			height 8px
-			background #222
+			width 32px
+			height 32px
+			background #111
 
 			> div
 				position absolute
