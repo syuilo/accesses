@@ -1,21 +1,25 @@
 <accesses-view>
 	<header>
-		<div class="left">
-			<p class="app">{ app }</p>
-			<accesses-node />
-			<p class="machine">MACHINE: { status.machine }</p>
-			<p class="pid">PID: { status.pid }</p>
-			<p class="uptime">UP: { status.uptime }s</p>
+		<div>
+			<div class="left">
+				<p class="app">{ app }</p>
+				<accesses-node />
+				<p class="machine">MACHINE: { status.machine }</p>
+				<p class="pid">PID: { status.pid }</p>
+				<p class="uptime">UP: { status.uptime }s</p>
+				<p class="now">{ now }</p>
+			</div>
+			<div class="right">
+				<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
+				<button class="clear" onclick={ clear }><i class="fa fa-times"></i>Clear</button>
+				<button class="follow { enable: follow }" onclick={ toggleFollow }><i class="fa fa-sort-amount-desc"></i>Follow</button>
+				<button class="rec { enable: rec }" onclick={ toggleRec }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>REC</button>
+			</div>
+		</div>
+		<div>
 			<accesses-cpu />
 			<accesses-mem />
 			<accesses-disk />
-			<p class="now">{ now }</p>
-		</div>
-		<div class="right">
-			<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
-			<button class="clear" onclick={ clear }><i class="fa fa-times"></i>Clear</button>
-			<button class="follow { enable: follow }" onclick={ toggleFollow }><i class="fa fa-sort-amount-desc"></i>Follow</button>
-			<button class="rec { enable: rec }" onclick={ toggleRec }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>REC</button>
 		</div>
 	</header>
 
@@ -32,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs } tabindex="-1" id={ id } ondblclick={ showLog }>
+			<tr each={ logs } tabindex="-1" id={ id }>
 				<td class="date" title={ date }>{ date }</td>
 				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
 				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
@@ -67,143 +71,153 @@
 				font-size 0.8em
 				background var(--header-background)
 
-				> .left, > .right
-					background inherit
-					white-space nowrap
+				> div:nth-child(1)
 
-					> *
-						display inline-block
-						line-height 32px
-						vertical-align top
+					> .left, > .right
+						background inherit
+						white-space nowrap
 
-				> .left
-					position relative
+						> *
+							display inline-block
+							line-height 32px
+							vertical-align top
 
-				> .right
-					position absolute
-					top 0
-					right 0
+					> .left
+						position relative
 
-					button, a
-						-webkit-appearance none
-						-moz-appearance none
-						appearance none
-						user-select none
-						cursor pointer
-						padding 0 12px
+					> .right
+						position absolute
+						top 0
+						right 0
+
+						button, a
+							-webkit-appearance none
+							-moz-appearance none
+							appearance none
+							user-select none
+							cursor pointer
+							padding 0 12px
+							margin 0
+							font-size 1em
+							text-decoration none
+							color var(--header-button-foreground)
+							outline none
+							border none
+							border-left solid 1px var(--header-separator-color)
+							border-radius 0
+							box-shadow none
+							background transparent
+							transition all .3s ease
+
+							*
+								pointer-events none
+
+							> i
+								margin-right 4px
+
+							&:hover
+								color var(--header-button-hover-foreground)
+								transition all 0.1s ease
+
+							&:active
+								transition all 0s ease
+
+					p
 						margin 0
-						font-size 1em
-						text-decoration none
-						color var(--header-button-foreground)
-						outline none
-						border none
-						border-left solid 1px var(--header-separator-color)
-						border-radius 0
-						box-shadow none
-						background transparent
-						transition all .3s ease
+						padding 0
 
-						*
-							pointer-events none
+					.app
+						padding 0 12px
+						font-weight bold
+						color var(--header-title-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					accesses-node
+						padding 0 12px
+						color var(--header-machine-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					.machine
+						padding 0 12px
+						color var(--header-machine-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					.pid
+						padding 0 12px
+						color var(--header-pid-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					.uptime
+						padding 0 12px
+						min-width 12em
+						color var(--header-uptime-caption-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+					.now
+						padding 0 12px
+						color var(--header-now-foreground)
+						border-right solid 1px var(--header-separator-color)
+
+						&:before
+							content "\f017"
+							font-family FontAwesome
+							margin-right 6px
+
+					.follow
+						color var(--header-follow-foreground)
+						transition all 0.2s ease
 
 						> i
 							margin-right 4px
 
+						&.enable
+							color #c1e31c
+
+							&:hover
+								color lighten(#c1e31c, 30%)
+								transition all 0.1s ease
+
+							&:active
+								color darken(#c1e31c, 20%)
+								transition all 0s ease
+
+					.rec
+						color var(--header-rec-foreground)
+						background #000
+						transition all 0.2s ease
+
 						&:hover
-							color var(--header-button-hover-foreground)
+							background #111
 							transition all 0.1s ease
 
 						&:active
+							background #222
 							transition all 0s ease
 
-				p
-					margin 0
-					padding 0
+						&.enable
+							color #fff
+							background #f00
 
-				.app
-					padding 0 12px
-					font-weight bold
-					color var(--header-title-foreground)
-					border-right solid 1px var(--header-separator-color)
+							&:hover
+								background #f22
 
-				accesses-node
-					padding 0 12px
-					color var(--header-machine-foreground)
-					border-right solid 1px var(--header-separator-color)
+							&:active
+								background #e00
 
-				.machine
-					padding 0 12px
-					color var(--header-machine-foreground)
-					border-right solid 1px var(--header-separator-color)
+						> i
+							margin-right 4px
 
-				.pid
-					padding 0 12px
-					color var(--header-pid-foreground)
-					border-right solid 1px var(--header-separator-color)
+				> div:nth-child(2)
+					border-top solid 1px var(--header-separator-color)
 
-				.uptime
-					padding 0 12px
-					min-width 12em
-					color var(--header-uptime-caption-foreground)
-					border-right solid 1px var(--header-separator-color)
-
-				.now
-					padding 0 12px
-					color var(--header-now-foreground)
-					border-right solid 1px var(--header-separator-color)
-
-					&:before
-						content "\f017"
-						font-family FontAwesome
-						margin-right 6px
-
-				.follow
-					color var(--header-follow-foreground)
-					transition all 0.2s ease
-
-					> i
-						margin-right 4px
-
-					&.enable
-						color #c1e31c
-
-						&:hover
-							color lighten(#c1e31c, 30%)
-							transition all 0.1s ease
-
-						&:active
-							color darken(#c1e31c, 20%)
-							transition all 0s ease
-
-				.rec
-					color var(--header-rec-foreground)
-					background #000
-					transition all 0.2s ease
-
-					&:hover
-						background #111
-						transition all 0.1s ease
-
-					&:active
-						background #222
-						transition all 0s ease
-
-					&.enable
-						color #fff
-						background #f00
-
-						&:hover
-							background #f22
-
-						&:active
-							background #e00
-
-					> i
-						margin-right 4px
+					> *
+						display inline-block
+						padding 0 12px
+						line-height 32px
+						border-right solid 1px var(--header-separator-color)
 
 			> table
 				width 100%
-				min-width 1000px
 				border-collapse collapse
 				table-layout fixed
 
@@ -232,7 +246,7 @@
 					display block
 					position sticky
 					z-index 1
-					top 32px
+					top 65px
 					left 0
 					width 100%
 					font-size 0.8em
