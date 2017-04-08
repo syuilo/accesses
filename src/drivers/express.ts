@@ -38,6 +38,20 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 		});
 	});
 
-	next();
+	if (accesses.intercepting) {
+		accesses.event.once('intercept-response', _res => {
+			res.send(_res);
+		});
+
+		accesses.event.once('intercept-response.' + id, _res => {
+			res.send(_res);
+		});
+
+		accesses.once('end-intercept', () => {
+			next();
+		});
+	} else {
+		next();
+	}
 };
 

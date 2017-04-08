@@ -13,6 +13,7 @@
 				<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
 				<button class="clear" onclick={ clear }><i class="fa fa-times"></i>Clear</button>
 				<button class="follow { enable: follow }" onclick={ toggleFollow }><i class="fa fa-sort-amount-desc"></i>Follow</button>
+				<button class="intercept { enable: intercept }" onclick={ toggleIntercept }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>INTERCEPT</button>
 				<button class="rec { enable: rec }" onclick={ toggleRec }><i class="fa fa-{ rec ? 'pause' : 'play' }"></i>REC</button>
 			</div>
 		</div>
@@ -36,7 +37,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs } tabindex="-1" id={ id } onclick={ showlog }>
+			<tr each={ logs } tabindex="-1" id={ id } class={ intercepted: intercepted } onclick={ showlog } oncontextmenu={ logContextmenu }>
 				<td class="date" title={ date }>{ date }</td>
 				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
 				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
@@ -210,6 +211,31 @@
 						> i
 							margin-right 4px
 
+					.intercept
+						color #fff
+						background #000
+						transition all 0.2s ease
+
+						&:hover
+							background #111
+							transition all 0.1s ease
+
+						&:active
+							background #222
+							transition all 0s ease
+
+						&.enable
+							background #00f
+
+							&:hover
+								background #22f
+
+							&:active
+								background #00e
+
+						> i
+							margin-right 4px
+
 				> div:nth-child(2)
 					border-top solid 1px var(--header-separator-color)
 
@@ -296,6 +322,10 @@
 						width 100%
 						cursor default
 
+						&.intercepted
+							outline solid 1px #f00
+							outline-offset -2px
+
 						&:nth-child(odd)
 							background var(--logs-body-log-odd-background)
 
@@ -377,6 +407,7 @@
 		this.app = document.head.querySelector('[name=application-name]').content;
 		this.follow = true;
 		this.rec = true;
+		this.intercept = false;
 		this.logs = [];
 		this.status = {};
 
@@ -385,6 +416,7 @@
 			this.stream.on('status', this.onStatus);
 			this.stream.on('request', this.onRequest);
 			this.stream.on('response', this.onResponse);
+			this.stream.on('intercept', this.onIntercept);
 			this.clock = setInterval(this.tick, 1000);
 		});
 
@@ -393,6 +425,7 @@
 			this.stream.off('status', this.onStatus);
 			this.stream.off('request', this.onRequest);
 			this.stream.off('response', this.onResponse);
+			this.stream.off('intercept', this.onIntercept);
 			clearInterval(this.clock);
 		});
 
@@ -405,6 +438,12 @@
 
 		this.toggleRec = () => {
 			this.update({ rec: !this.rec });
+		};
+
+		this.toggleIntercept = () => {
+			this.stream.send({
+				action: 'intercept'
+			});
 		};
 
 		this.export = e => {
@@ -425,6 +464,10 @@
 			this.update({
 				follow: height + scrollTop >= (documentHeight - 64)
 			});
+		};
+
+		this.onIntercept = intercept => {
+			this.update({ intercept });
 		};
 
 		this.onStatus = status => {
@@ -457,6 +500,7 @@
 			}
 			this.logs.some(log => {
 				if (log.id === res.id) {
+					log.intercepted = false;
 					log.res = res;
 					return true;
 				}
@@ -483,6 +527,15 @@
 
 		this.showlog = e => {
 			console.log(e.item);
+		};
+
+		this.logContextmenu = e => {
+			e.preventDefault();
+			this.stream.send({
+				action: 'intercept-response',
+				id: e.item.id,
+				res: 'THIS REQUEST IS INTERCEPTED'
+			});
 		};
 
 	</script>

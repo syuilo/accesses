@@ -2,6 +2,7 @@
  * Server
  */
 
+import { EventEmitter } from 'events';
 import * as cluster from 'cluster';
 import * as http from 'http';
 import * as ws from 'ws';
@@ -61,6 +62,8 @@ export type Request = {
 	 * Requedted at
 	 */
 	date: Date;
+
+	intercepted?: boolean;
 };
 
 export type Response = {
@@ -80,13 +83,21 @@ export type Response = {
 	time: number;
 };
 
-export default class Server {
+export default class Server extends EventEmitter {
 	private wss: ws.Server;
+
+	public intercepting: boolean = false;
+
+	public event: EventEmitter;
 
 	// Drivers
 	public express: any;
 
 	constructor(opts: Options) {
+		super();
+
+		this.event = event;
+
 		const app = express();
 		app.disable('x-powered-by');
 		app.set('view engine', 'pug')
@@ -102,7 +113,36 @@ export default class Server {
 			server: server
 		});
 
+		this.wss.on('connection', client => {
+			client.on('message', message => {
+				const msg = JSON.parse(message);
+				console.log(msg);
+				switch (msg.action) {
+					case 'intercept':
+						if (this.intercepting) {
+							this.unintercept();
+						} else {
+							this.intercept();
+						}
+						break;
+					case 'intercept-response':
+						this.interceptResponse(msg.res, msg.id);
+						break;
+				}
+			});
+		});
+
 		event.on('*', this.broadcast);
+
+		event.on('start-intercept', () => {
+			this.intercepting = true;
+			this.emit('start-intercept');
+		});
+
+		event.on('end-intercept', () => {
+			this.intercepting = false;
+			this.emit('end-intercept');
+		});
 
 		if (cluster.isMaster) {
 			reportStatus();
@@ -132,6 +172,7 @@ export default class Server {
 	 */
 	@autobind
 	public captureRequest(req: Request): void {
+		req.intercepted = this.intercepting;
 		event.emit('request', req);
 	}
 
@@ -142,5 +183,26 @@ export default class Server {
 	@autobind
 	public captureResponse(res: Response): void {
 		event.emit('response', res);
+	}
+
+	/**
+	 * インターセプト開始
+	 */
+	@autobind
+	public intercept(): void {
+		event.emit('start-intercept');
+	}
+
+	/**
+	 * インターセプト終了
+	 */
+	@autobind
+	public unintercept(): void {
+		event.emit('end-intercept');
+	}
+
+	@autobind
+	public interceptResponse(res: string, id?: string) {
+		event.emit(id ? `intercept-response.${id}` : 'intercept-response', res);
 	}
 }
