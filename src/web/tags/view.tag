@@ -7,7 +7,7 @@
 				<p class="machine">MACHINE: { status.machine }</p>
 				<p class="pid">PID: { status.pid }</p>
 				<p class="uptime">UP: { status.uptime }s</p>
-				<p class="now">{ now }</p>
+				<p class="now"><i class="fa fa-time"></i>{ now }</p>
 			</div>
 			<div class="right">
 				<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
@@ -36,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs } tabindex="-1" id={ id }>
+			<tr each={ logs } tabindex="-1" id={ id } onclick={ showlog }>
 				<td class="date" title={ date }>{ date }</td>
 				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
 				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
@@ -64,12 +64,17 @@
 
 			> header
 				display block
-				position sticky
+				position fixed
 				z-index 10000
 				top 0
 				left 0
+				width 100%
 				font-size 0.8em
 				background var(--header-background)
+
+				> div
+					white-space nowrap
+					overflow hidden
 
 				> div:nth-child(1)
 
@@ -158,9 +163,7 @@
 						color var(--header-now-foreground)
 						border-right solid 1px var(--header-separator-color)
 
-						&:before
-							content "\f017"
-							font-family FontAwesome
+						> i
 							margin-right 6px
 
 					.follow
@@ -217,7 +220,9 @@
 						border-right solid 1px var(--header-separator-color)
 
 			> table
+				margin-top 65px
 				width 100%
+				min-width 1000px
 				border-collapse collapse
 				table-layout fixed
 
@@ -474,6 +479,10 @@
 			this.update({
 				now: `${yyyy}/${mm}/${dd} ${hh}:${nn}:${ss}`
 			});
+		};
+
+		this.showlog = e => {
+			console.log(e.item);
 		};
 
 	</script>
