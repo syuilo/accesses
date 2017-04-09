@@ -39,9 +39,11 @@
 			> table
 				margin-top 65px
 				width 100%
-				min-width 1000px
 				border-collapse collapse
 				table-layout fixed
+
+				@media (max-width: 1024px)
+					min-width 2000px
 
 				.date
 					width 9%
@@ -66,6 +68,7 @@
 
 				> thead
 					display block
+					position -webkit-sticky
 					position sticky
 					z-index 1
 					top 65px
