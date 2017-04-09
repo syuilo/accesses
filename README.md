@@ -11,7 +11,7 @@
 
 A graphical access logger for [Node](https://github.com/nodejs/node).
 
-![](https://lh3.googleusercontent.com/805kQwXur-eiBpO0uzwcsEMx_3kHe0GlpQCA2MRNN4HbzxkhLu2u7HJrLcLnVto_jy4Hh_bi2AQUiQA=w1359-h729-rw)
+![](https://file.himasaku.net/58eac07920b67b2671d4f6ef/anime.gif)
 
 Features
 ----------------------------------------------------------------
@@ -86,7 +86,7 @@ Intercept requests
 accesses can intercept to request. So, you can hold, drop and bypass
 a request and send a custom resoponse.
 
-![](https://lh3.googleusercontent.com/rcrfBf3BKng3FxvvOe6riMEHtaXxACD2jjnY__lyW5HzMXBeO1rFQh52zwJxFRstWz58dgHh3kPoyms=w1359-h729-rw)
+![](https://file.himasaku.net/58eac09b20b67b2671d4f6f0/Animation.gif)
 
 When turn on intercepting mode, all requests will hold.
 
