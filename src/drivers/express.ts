@@ -25,6 +25,18 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 		headers: req.headers
 	});
 
+	const onInterceptBypass = () => {
+		next();
+	};
+
+	const onInterceptResponse = _res => {
+		if (_res.body == null || _res.body == '') {
+			res.sendStatus(_res.status);
+		} else {
+			res.status(_res.status).send(_res.body);
+		}
+	};
+
 	onFinished(res, () => {
 		const endAt = process.hrtime();
 
@@ -36,28 +48,20 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 			status: res.statusCode,
 			time: ms
 		});
+
+		accesses.event.removeListener('intercept-response', onInterceptResponse);
+		accesses.event.removeListener(`intercept-response.${id}`, onInterceptResponse);
+		accesses.event.removeListener('intercept-bypass', onInterceptBypass);
+		accesses.event.removeListener(`intercept-bypass.${id}`, onInterceptBypass);
+		accesses.event.removeListener('end-intercept', onInterceptBypass);
 	});
 
 	if (accesses.intercepting) {
-		accesses.event.once('intercept-response', _res => {
-			res.send(_res);
-		});
-
-		accesses.event.once('intercept-response.' + id, _res => {
-			if (_res.body == null || _res.body == '') {
-				res.sendStatus(_res.status);
-			} else {
-				res.status(_res.status).send(_res.body);
-			}
-		});
-
-		accesses.event.once('intercept-bypass.' + id, () => {
-			next();
-		});
-
-		accesses.once('end-intercept', () => {
-			next();
-		});
+		accesses.event.once('intercept-response', onInterceptResponse);
+		accesses.event.once(`intercept-response.${id}`, onInterceptResponse);
+		accesses.event.once('intercept-bypass', onInterceptBypass);
+		accesses.event.once(`intercept-bypass.${id}`, onInterceptBypass);
+		accesses.event.once('end-intercept', onInterceptBypass);
 	} else {
 		next();
 	}
