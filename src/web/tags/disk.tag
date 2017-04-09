@@ -1,10 +1,21 @@
 <accesses-disk>
-	<span>DISK: { (100 - (100 * free / total)).toFixed(1) }% ({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free) <accesses-meter ref="meter" max={ total } /></span>
+	<span><i class="fa fa-hdd-o"></i>DISK: { (100 - (100 * free / total)).toFixed(1) }% <span>({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free)</span><accesses-meter ref="meter" max={ total } /></span>
 
 	<style>
 		:scope
 			display inline-block
 			color #fff
+
+			> span
+				display inline-block
+
+				> i
+					margin-right 8px
+
+				> span
+					margin-right 8px
+					opacity 0.9
+
 	</style>
 
 	<script>

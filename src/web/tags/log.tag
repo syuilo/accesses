@@ -72,8 +72,8 @@
 					left 0
 					width 100%
 					font-size 0.8em
-					color var(--logs-header-foreground)
-					background var(--logs-header-background)
+					color #fff
+					background #222
 
 					&.dragging > tr > th:not(.chosen)
 						background transparent !important
@@ -96,10 +96,10 @@
 							overflow hidden
 
 							&:hover
-								background var(--logs-header-column-hover-background)
+								background #333
 
 							&.chosen
-								background var(--logs-header-column-chosen-background)
+								background #f33
 
 				> tbody
 					display block
@@ -118,23 +118,20 @@
 							outline-offset -2px
 
 						&:nth-child(odd)
-							background var(--logs-body-log-odd-background)
-
-							&:hover
-								background var(--logs-body-log-odd-hover-background)
+							background transparent
 
 						&:nth-child(even)
-							background var(--logs-body-log-even-background)
+							background rgba(#fff, 0.06)
 
-							&:hover
-								background var(--logs-body-log-even-hover-background)
+						&:hover
+							background rgba(#fff, 0.1)
 
 						&:focus
-							background var(--logs-body-log-focus-background) !important
+							background #02d7e1 !important
 							outline none
 
 							&, > *:not(.ip), > *:not(.ip) *
-								color var(--logs-body-log-focus-foreground) !important
+								color #000 !important
 
 						> td
 							display inline-block
@@ -146,47 +143,46 @@
 							overflow hidden
 
 							&.date
-								color var(--logs-body-log-column-date-foreground)
+								color rgba(#fff, 0.5)
 
 							&.method
 								&.get
-									color var(--logs-body-log-column-method-get-foreground)
+									color #11a8cd
 
 								&.post
-									color var(--logs-body-log-column-method-post-foreground)
+									color #ff6a00
 
 							&.host
-								color var(--logs-body-log-column-host-foreground)
+								color #008080
 
 							&.path
-								color var(--logs-body-log-column-path-foreground)
+								color #fff
 
 								.query
-									color var(--logs-body-log-column-path-query-foreground)
+									color rgba(#fff, 0.6)
 
 							&.ua
-								color var(--logs-body-log-column-ua-foreground)
+								color rgba(#fff, 0.7)
 
 							&.res
-								color var(--logs-body-log-column-res-foreground)
+								rgba(#fff, 0.5)
 
 								.status
 									&.success
-										color var(--logs-body-log-column-res-success-foreground)
+										color #23d18b
 
 									&.redirection
-										color var(--logs-body-log-column-res-redirection-foreground)
+										color #11a8cd
 
 									&.client-error
-										color var(--logs-body-log-column-res-client-error-foreground)
+										color #f5f543
 
 									&.server-error
-										color var(--logs-body-log-column-res-server-error-foreground)
+										color #f14c4c
 
 								.time
 									margin-left 8px
-									color var(--logs-body-log-column-res-time-foreground)
-
+									color rgba(#fff, 0.6)
 
 	</style>
 

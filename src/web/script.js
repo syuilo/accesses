@@ -3,7 +3,6 @@
  */
 
 import './style.styl';
-import './theme/visualstudio.styl';
 
 import * as riot from 'riot';
 import Connection from './scripts/stream';

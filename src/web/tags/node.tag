@@ -1,5 +1,6 @@
 <accesses-node>
-	<span>{ node.release } { node.version } { node.lts || 'non-LTS' }</span>
+	<span if={ node }>{ node.release } { node.version } { node.lts || 'non-LTS' }</span>
+	<span if={ !node }>---</span>
 
 	<style>
 		:scope

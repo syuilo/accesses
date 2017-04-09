@@ -7,7 +7,7 @@
 				<p class="machine">MACHINE: { status.machine }</p>
 				<p class="pid">PID: { status.pid }</p>
 				<p class="uptime">UP: { status.uptime }s</p>
-				<p class="now"><i class="fa fa-time"></i>{ now }</p>
+				<p class="now"><i class="fa fa-clock-o"></i>{ now }</p>
 			</div>
 			<div class="right">
 				<a class="export" href="#" onclick={ export }><i class="fa fa-download"></i>Export</a>
@@ -40,7 +40,7 @@
 				left 0
 				width 100%
 				font-size 0.8em
-				background var(--header-background)
+				background #000
 
 				> div
 					white-space nowrap
@@ -60,6 +60,9 @@
 					> .left
 						position relative
 
+						> *
+							border-right solid 1px #222
+
 					> .right
 						position absolute
 						top 0
@@ -75,27 +78,19 @@
 							margin 0
 							font-size 1em
 							text-decoration none
-							color var(--header-button-foreground)
+							color #ddd
 							outline none
 							border none
-							border-left solid 1px var(--header-separator-color)
+							border-left solid 1px #222
 							border-radius 0
 							box-shadow none
-							background transparent
-							transition all .3s ease
-
-							*
-								pointer-events none
+							background #000
 
 							> i
 								margin-right 4px
 
 							&:hover
-								color var(--header-button-hover-foreground)
-								transition all 0.1s ease
-
-							&:active
-								transition all 0s ease
+								color #fff
 
 					p
 						margin 0
@@ -104,40 +99,34 @@
 					.app
 						padding 0 12px
 						font-weight bold
-						color var(--header-title-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #b4cc7e
 
 					accesses-node
 						padding 0 12px
-						color var(--header-machine-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #eee
 
 					.machine
 						padding 0 12px
-						color var(--header-machine-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #fff
 
 					.pid
 						padding 0 12px
-						color var(--header-pid-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #ccc
 
 					.uptime
 						padding 0 12px
 						min-width 12em
-						color var(--header-uptime-caption-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #ccc
 
 					.now
 						padding 0 12px
-						color var(--header-now-foreground)
-						border-right solid 1px var(--header-separator-color)
+						color #f0f0f0
 
 						> i
 							margin-right 6px
 
 					.follow
-						color var(--header-follow-foreground)
+						color #fff
 						transition all 0.2s ease
 
 						> i
@@ -155,7 +144,7 @@
 								transition all 0s ease
 
 					.rec
-						color var(--header-rec-foreground)
+						color #fff
 						background #000
 						transition all 0.2s ease
 
@@ -206,13 +195,13 @@
 							margin-right 4px
 
 				> div:nth-child(2)
-					border-top solid 1px var(--header-separator-color)
+					border-top solid 1px #222
 
 					> *
 						display inline-block
 						padding 0 12px
 						line-height 32px
-						border-right solid 1px var(--header-separator-color)
+						border-right solid 1px #222
 
 	</style>
 

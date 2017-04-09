@@ -1,10 +1,17 @@
 <accesses-cpu>
-	<span>CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }% <accesses-meter ref="meter" max={ 1 } /></span>
+	<span><i class="fa fa-microchip"></i>CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }% <accesses-meter ref="meter" max={ 1 } /></span>
 
 	<style>
 		:scope
 			display inline-block
 			color #fff
+
+			> span
+				display inline-block
+
+				> i
+					margin-right 8px
+
 	</style>
 
 	<script>
