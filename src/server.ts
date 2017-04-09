@@ -125,8 +125,11 @@ export default class Server extends EventEmitter {
 							this.intercept();
 						}
 						break;
-					case 'intercept-response':
+					case 'response':
 						this.interceptResponse(msg.res, msg.id);
+						break;
+					case 'bypass':
+						this.bypass(msg.id);
 						break;
 				}
 			});
@@ -204,5 +207,10 @@ export default class Server extends EventEmitter {
 	@autobind
 	public interceptResponse(res: string, id?: string) {
 		event.emit(id ? `intercept-response.${id}` : 'intercept-response', res);
+	}
+
+	@autobind
+	public bypass(id: string) {
+		event.emit(`intercept-bypass.${id}`);
 	}
 }

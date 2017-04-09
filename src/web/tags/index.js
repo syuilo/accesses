@@ -1,7 +1,11 @@
 require('./view.tag');
+require('./log.tag');
 require('./stream-indicator.tag');
 require('./meter.tag');
 require('./cpu.tag');
 require('./mem.tag');
 require('./disk.tag');
 require('./node.tag');
+require('./inspector.tag');
+require('./inspector-window.tag');
+require('./window.tag');

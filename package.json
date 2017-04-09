@@ -1,6 +1,6 @@
 {
   "name": "accesses",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "HTTP request logger middleware",
   "keywords": [
     "http",

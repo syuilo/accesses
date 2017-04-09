@@ -44,7 +44,15 @@ export default (accesses: Accesses) => (req: express.Request, res: express.Respo
 		});
 
 		accesses.event.once('intercept-response.' + id, _res => {
-			res.send(_res);
+			if (_res.body == null || _res.body == '') {
+				res.sendStatus(_res.status);
+			} else {
+				res.status(_res.status).send(_res.body);
+			}
+		});
+
+		accesses.event.once('intercept-bypass.' + id, () => {
+			next();
 		});
 
 		accesses.once('end-intercept', () => {

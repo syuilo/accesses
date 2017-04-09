@@ -10,3 +10,33 @@ html
 body
 	margin 0
 	-webkit-text-size-adjust 100%
+
+
+button
+	-webkit-appearance none
+	-moz-appearance none
+	appearance none
+	user-select none
+	cursor pointer
+	padding 4px 12px
+	margin 0
+	font-size 1em
+	text-decoration none
+	color #000
+	outline none
+	border none
+	border-radius 0
+	box-shadow none
+	background #aaa
+
+	*
+		pointer-events none
+
+	> i
+		margin-right 4px
+
+	&:hover
+		background #bbb
+
+	&:active
+		background #999
