@@ -11,6 +11,7 @@ import event from './event';
 
 import reportStatus from './report-status';
 import autobind from './helpers/autobind';
+import demo from './demo';
 
 // Drivers
 import expressDriver from './drivers/express';
@@ -25,6 +26,8 @@ export type Options = {
 	 * The port number you want to provide the Web interface
 	 */
 	port: number;
+
+	demo?: boolean;
 };
 
 export type Request = {
@@ -149,6 +152,10 @@ export default class Server extends EventEmitter {
 
 		if (cluster.isMaster) {
 			reportStatus();
+		}
+
+		if (opts.demo) {
+			demo(this);
 		}
 
 		this.express = expressDriver(this);
