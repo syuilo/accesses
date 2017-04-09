@@ -81,6 +81,15 @@ else {
 ### That is it.
 Now, we can monitor accesses on localhost:616
 
+Intercept requests
+----------------------------------------------------------------
+accesses can intercept to request. So, you can hold, drop and bypass
+a request and send a custom resoponse.
+
+![ss](https://lh3.googleusercontent.com/rcrfBf3BKng3FxvvOe6riMEHtaXxACD2jjnY__lyW5HzMXBeO1rFQh52zwJxFRstWz58dgHh3kPoyms=w1359-h729-rw)
+
+When turn on intercepting mode, all requests will hold.
+
 Reference
 ----------------------------------------------------------------
 ### options

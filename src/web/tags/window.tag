@@ -27,8 +27,7 @@
 				top 15%
 				left 0
 				margin 0
-				outline solid 4px #63c3ff
-				outline-offset 0px
+				outline solid 1px #63c3ff
 
 				> .handle
 					$size = 8px
