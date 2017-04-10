@@ -36,7 +36,7 @@ export default (server: Server) => {
 					'Mozilla/5.0 (iPad; CPU OS 10_3_2 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko)'
 				)
 			}
-		}, null, null);
+		}, () => {}, () => {});
 
 		setTimeout(() => {
 			ctx.done(choice(200, 200, 200, 201, 204, 304, 404, 500));

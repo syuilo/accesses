@@ -66,8 +66,6 @@ export type Request = {
 	 * Requedted at
 	 */
 	date: Date;
-
-	intercepted?: boolean;
 };
 
 export type Response = {
@@ -114,7 +112,6 @@ export default class Server {
 		this.wss.on('connection', client => {
 			client.on('message', message => {
 				const msg = JSON.parse(message);
-				console.log(msg);
 				switch (msg.action) {
 					case 'intercept':
 						if (this.intercepting) {
@@ -176,31 +173,35 @@ export default class Server {
 	@autobind
 	public capture(req: any, response: Function, bypass: Function): Context {
 		const ctx = new Context(response, bypass);
-		const id = ctx.id;
 
 		ctx.once('done', res => {
 			event.emit('response', res);
-
-			event.removeListener('intercept-response', ctx.response);
-			event.removeListener(`intercept-response.${id}`, ctx.response);
-			event.removeListener('intercept-bypass', ctx.bypass);
-			event.removeListener(`intercept-bypass.${id}`, ctx.bypass);
-			event.removeListener('end-intercept', ctx.bypass);
 		});
 
-		if (this.intercepting) {
-			req.intercepted = true;
+		const shouldIntercept = this.intercepting;
 
+		if (shouldIntercept) {
 			event.once('intercept-response', ctx.response);
-			event.once(`intercept-response.${id}`, ctx.response);
+			event.once(`intercept-response.${ctx.id}`, ctx.response);
 			event.once('intercept-bypass', ctx.bypass);
-			event.once(`intercept-bypass.${id}`, ctx.bypass);
+			event.once(`intercept-bypass.${ctx.id}`, ctx.bypass);
 			event.once('end-intercept', ctx.bypass);
+
+			ctx.once('done', () => {
+				event.removeListener('intercept-response', ctx.response);
+				event.removeListener(`intercept-response.${ctx.id}`, ctx.response);
+				event.removeListener('intercept-bypass', ctx.bypass);
+				event.removeListener(`intercept-bypass.${ctx.id}`, ctx.bypass);
+				event.removeListener('end-intercept', ctx.bypass);
+			});
 		} else {
 			bypass();
 		}
 
-		event.emit('request', req);
+		event.emit('request', Object.assign(req, {
+			id: ctx.id,
+			intercepted: shouldIntercept
+		}));
 
 		return ctx;
 	}
