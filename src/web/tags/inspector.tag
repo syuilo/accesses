@@ -51,9 +51,7 @@
 			this.stream.send({
 				action: 'response',
 				id: this.req.id,
-				res: {
-					status: 403
-				}
+				status: 403
 			});
 		};
 
@@ -61,10 +59,8 @@
 			this.stream.send({
 				action: 'response',
 				id: this.req.id,
-				res: {
-					status: this.refs.forgeryStatus.value,
-					body: this.refs.forgeryBody.value
-				}
+				status: this.refs.forgeryStatus.value,
+				body: this.refs.forgeryBody.value
 			});
 		};
 	</script>

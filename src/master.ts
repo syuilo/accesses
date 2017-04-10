@@ -1,12 +1,13 @@
 import * as cluster from 'cluster';
-import event from './event';
+import * as event from './event';
 import reportStatus from './report-status';
 
 /**
  * Init master
  */
 export default function() {
-	event.mount();
+	event.internal.mount();
+	event.stream.mount();
 
 	reportStatus();
 }

@@ -1,7 +1,7 @@
 import * as os from 'os';
 const osUtils = require('os-utils');
 import * as diskusage from 'diskusage';
-import event from './event';
+import * as event from './event';
 
 /**
  * Report status regularly
@@ -10,7 +10,7 @@ export default function() {
 	setInterval(() => {
 		osUtils.cpuUsage(cpuUsage => {
 			const disk = diskusage.checkSync(os.platform() == 'win32' ? 'c:' : '/');
-			event.emit('status', {
+			event.stream.emit('status', {
 				node: {
 					release: (process as any).release.name,
 					lts: (process as any).release.lts,

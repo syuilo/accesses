@@ -1,3 +1,4 @@
 import Xev from 'xev';
 
-export default new Xev('syuilo/accesses');
+export const internal = new Xev('syuilo/accesses');
+export const stream = new Xev('syuilo/accesses:stream');

@@ -17,11 +17,11 @@ export default (core: Core) => (req: Request, res: Response, next) => {
 		httpVersion: req.httpVersion,
 		method: req.method,
 		headers: req.headers
-	}, _res => {
-		if (_res.body == null || _res.body == '') {
-			res.sendStatus(_res.status);
+	}, (status, body) => {
+		if (body == null || body == '') {
+			res.sendStatus(status);
 		} else {
-			res.status(_res.status).send(_res.body);
+			res.status(status).send(body);
 		}
 	}, next);
 
