@@ -2,7 +2,6 @@
  * express driver
  */
 
-import * as process from 'process';
 import { Request, Response } from 'express';
 import * as onFinished from 'on-finished';
 const proxyaddr = require('proxy-addr');
