@@ -12,7 +12,6 @@ import * as uuid from 'uuid';
 import event from './event';
 import reportStatus from './report-status';
 import autobind from './helpers/autobind';
-import demo from './demo';
 
 // Drivers
 import expressDriver from './drivers/express';
@@ -142,10 +141,6 @@ export default class Server {
 
 		if (cluster.isMaster) {
 			reportStatus();
-		}
-
-		if (opts.demo) {
-			demo(this);
 		}
 
 		this.express = expressDriver(this);
