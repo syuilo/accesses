@@ -5,7 +5,7 @@
  */
 
 import Accesses from './server';
-import _master from './master';
+import _master from './init-master';
 
 export default Accesses;
 export const master = _master;

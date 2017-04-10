@@ -5,7 +5,7 @@
 import { Request, Response } from 'express';
 import * as onFinished from 'on-finished';
 const proxyaddr = require('proxy-addr');
-import Core from '../';
+import Core from '../core';
 
 export default (core: Core) => (req: Request, res: Response, next) => {
 	const remoteaddr = proxyaddr(req, () => true);

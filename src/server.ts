@@ -9,8 +9,7 @@ import * as express from 'express';
 
 import * as event from './event';
 import reportStatus from './report-status';
-import Context from './context';
-import { SendReponse, Bypass } from './context';
+import Core from './core';
 import autobind from './helpers/autobind';
 
 // Drivers
@@ -29,14 +28,15 @@ export type Options = {
 };
 
 export default class Server {
+	private core: Core;
 	private wss: ws.Server;
-
-	public intercepting: boolean = false;
 
 	// Drivers
 	public express: any;
 
 	constructor(opts: Options) {
+		this.core = new Core();
+
 		{ // Set up server
 			const app = express();
 			app.disable('x-powered-by');
@@ -58,19 +58,11 @@ export default class Server {
 
 		event.stream.on('*', this.broadcast);
 
-		event.internal.on('start-intercept', () => {
-			this.intercepting = true;
-		});
-
-		event.internal.on('end-intercept', () => {
-			this.intercepting = false;
-		});
-
 		if (cluster.isMaster) {
 			reportStatus();
 		}
 
-		this.express = expressDriver(this);
+		this.express = expressDriver(this.core);
 	}
 
 	@autobind
@@ -79,17 +71,17 @@ export default class Server {
 			const msg = JSON.parse(message);
 			switch (msg.action) {
 				case 'intercept':
-					if (this.intercepting) {
-						this.unintercept();
+					if (this.core.intercepting) {
+						this.core.unintercept();
 					} else {
-						this.intercept();
+						this.core.intercept();
 					}
 					break;
 				case 'response':
-					this.interceptResponse(msg.status, msg.body, msg.id);
+					this.core.interceptResponse(msg.status, msg.body, msg.id);
 					break;
 				case 'bypass':
-					this.bypass(msg.id);
+					this.core.bypass(msg.id);
 					break;
 			}
 		});
@@ -108,46 +100,5 @@ export default class Server {
 				if (client.readyState !== ws.OPEN) return;
 				client.send(JSON.stringify({ type, data }));
 			});
-	}
-
-	/**
-	 * リクエストを捕捉します
-	 * @param req リクエスト
-	 */
-	@autobind
-	public capture(req: any, response: SendReponse, bypass: Bypass): Context {
-		const shouldIntercept = this.intercepting;
-		const ctx = new Context(req, response, bypass, shouldIntercept);
-		return ctx;
-	}
-
-	/**
-	 * インターセプト開始
-	 */
-	@autobind
-	public intercept(): void {
-		event.internal.emit('start-intercept');
-		event.stream.emit('start-intercept');
-	}
-
-	/**
-	 * インターセプト終了
-	 */
-	@autobind
-	public unintercept(): void {
-		event.internal.emit('end-intercept');
-		event.stream.emit('end-intercept');
-	}
-
-	@autobind
-	public interceptResponse(status: number, body: any, id?: string) {
-		event.internal.emit(id ? `intercept-response.${id}` : 'intercept-response', {
-			status, body
-		});
-	}
-
-	@autobind
-	public bypass(id: string) {
-		event.internal.emit(`intercept-bypass.${id}`);
 	}
 }
