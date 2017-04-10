@@ -1,4 +1,4 @@
-<accesses-window data-flexible={ isFlexible } ondragover={ ondragover }>
+<x-window data-flexible={ isFlexible } ondragover={ ondragover }>
 	<div class="main" ref="main" tabindex="-1" onmousedown={ onBodyMousedown } onkeydown={ onKeydown }>
 		<div class="body">
 			<header ref="header" onmousedown={ onHeaderMousedown }>
@@ -199,7 +199,7 @@
 		this.top = () => {
 			let z = 0;
 
-			const ws = document.querySelectorAll('accesses-window');
+			const ws = document.querySelectorAll('x-window');
 			ws.forEach(w => {
 				if (w == this.root) return;
 				const m = w.querySelector(':scope > .main');
@@ -436,4 +436,4 @@
 		};
 
 	</script>
-</accesses-window>
+</x-window>

@@ -1,4 +1,4 @@
-<accesses-node>
+<x-node>
 	<span if={ node }>{ node.release } { node.version } { node.lts || 'non-LTS' }</span>
 	<span if={ !node }>---</span>
 
@@ -25,4 +25,4 @@
 			});
 		};
 	</script>
-</accesses-node>
+</x-node>

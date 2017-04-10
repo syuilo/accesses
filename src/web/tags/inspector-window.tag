@@ -1,10 +1,10 @@
-<accesses-inspector-window>
-	<accesses-window ref="window" width={ '650px' } height={ '400px' }>
-		<yield to="header">{ parent.req.id }</yield>
+<x-inspector-window>
+	<x-window ref="window" width={ '650px' } height={ '400px' }>
+		<yield to="header">inspect: { parent.req.id }</yield>
 		<yield to="content">
-			<accesses-inspector ref="inspector" req={ parent.req } />
+			<x-inspector ref="inspector" req={ parent.req } />
 		</yield>
-	</accesses-window>
+	</x-window>
 	<script>
 		this.req = this.opts.req;
 
@@ -15,4 +15,4 @@
 			});
 		});
 	</script>
-</accesses-inspector-window>
+</x-inspector-window>

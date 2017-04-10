@@ -12,7 +12,7 @@ export type Request = {
 	/**
 	 * Remote address
 	 */
-	remoteaddr: string;
+	ip: string;
 
 	/**
 	 * HTTP version
@@ -59,6 +59,7 @@ export type Response = {
 
 export default class Core {
 	public intercepting: boolean = false;
+	public interceptingIps: string[] = [];
 
 	constructor() {
 		event.internal.on('start-intercept', () => {
@@ -68,6 +69,14 @@ export default class Core {
 		event.internal.on('end-intercept', () => {
 			this.intercepting = false;
 		});
+
+		event.internal.on('intercept-ip', ip => {
+			if (this.interceptingIps.indexOf(ip) > -1) {
+				this.interceptingIps = this.interceptingIps.filter(x => x != ip);
+			} else {
+				this.interceptingIps.push(ip);
+			}
+		});
 	}
 
 	/**
@@ -76,7 +85,7 @@ export default class Core {
 	 */
 	@autobind
 	public capture(req: any, response: SendReponse, bypass: Bypass): Context {
-		const shouldIntercept = this.intercepting;
+		const shouldIntercept = this.intercepting || this.interceptingIps.indexOf(req.ip) > -1;
 		const ctx = new Context(req, response, bypass, shouldIntercept);
 		return ctx;
 	}
@@ -109,5 +118,10 @@ export default class Core {
 	@autobind
 	public bypass(id: string) {
 		event.internal.emit(`intercept-bypass.${id}`);
+	}
+
+	@autobind
+	public interceptIp(ip: string) {
+		event.internal.emit('intercept-ip', ip);
 	}
 }

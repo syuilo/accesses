@@ -1,5 +1,5 @@
-<accesses-disk>
-	<span><i class="fa fa-hdd-o"></i>DISK: { (100 - (100 * free / total)).toFixed(1) }% <span>({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free)</span><accesses-meter ref="meter" max={ total } /></span>
+<x-disk>
+	<span><i class="fa fa-hdd-o"></i>DISK: { (100 - (100 * free / total)).toFixed(1) }% <span>({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free)</span><x-meter ref="meter" max={ total } /></span>
 
 	<style>
 		:scope
@@ -41,4 +41,4 @@
 			});
 		};
 	</script>
-</accesses-disk>
+</x-disk>

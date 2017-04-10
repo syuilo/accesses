@@ -1,5 +1,5 @@
-<accesses-mem>
-	<span><i class="fa fa-heart-o"></i>MEM: { (100 - (100 * free / total)).toFixed(1) }% <span>({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free)</span><accesses-meter ref="meter" max={ total } /></span>
+<x-mem>
+	<span><i class="fa fa-heart-o"></i>MEM: { (100 - (100 * free / total)).toFixed(1) }% <span>({ (total / 1024 / 1024 / 1024).toFixed(1) }GB total, { ((total - free) / 1024 / 1024 / 1024).toFixed(1) }GB used, { (free / 1024 / 1024 / 1024).toFixed(1) }GB free)</span><x-meter ref="meter" max={ total } /></span>
 
 	<style>
 		:scope
@@ -40,4 +40,4 @@
 			});
 		};
 	</script>
-</accesses-mem>
+</x-mem>

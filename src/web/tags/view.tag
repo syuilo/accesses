@@ -1,9 +1,9 @@
-<accesses-view>
+<x-view>
 	<header>
 		<div>
 			<div class="left">
 				<p class="app">{ app }</p>
-				<accesses-node />
+				<x-node />
 				<p class="machine">MACHINE: { status.machine }</p>
 				<p class="pid">PID: { status.pid }</p>
 				<p class="uptime">UP: { status.uptime }s</p>
@@ -18,15 +18,15 @@
 			</div>
 		</div>
 		<div>
-			<accesses-cpu />
-			<accesses-mem />
-			<accesses-disk />
+			<x-cpu />
+			<x-mem />
+			<x-disk />
 		</div>
 	</header>
 
-	<accesses-log ref="log" />
+	<x-log ref="log" />
 
-	<accesses-stream-indicator />
+	<x-stream-indicator />
 
 	<style>
 		:scope
@@ -101,7 +101,7 @@
 						font-weight bold
 						color #b4cc7e
 
-					accesses-node
+					x-node
 						padding 0 12px
 						color #eee
 
@@ -296,4 +296,4 @@
 			});
 		};
 	</script>
-</accesses-view>
+</x-view>

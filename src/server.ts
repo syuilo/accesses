@@ -81,6 +81,9 @@ export default class Server {
 					this.core.intercept();
 				}
 				break;
+			case 'intercept-ip':
+				this.core.interceptIp(msg.ip);
+				break;
 			case 'response':
 				this.core.interceptResponse(msg.status, msg.body, msg.id);
 				break;

@@ -1,4 +1,4 @@
-<accesses-meter>
+<x-meter>
 	<div class="afterimage" if={ prev } style="width:{ 100 * prev.value / prev.max }%; background:{ prev.color };"></div>
 	<div style="width:{ 100 * value / max }%; background:{ color };"></div>
 	<style>
@@ -38,4 +38,4 @@
 			};
 		});
 	</script>
-</accesses-meter>
+</x-meter>

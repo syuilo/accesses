@@ -16,6 +16,6 @@ require('./tags');
 	});
 
 	window.onload = () => {
-		riot.mount(document.body.appendChild(document.createElement('accesses-view')));
+		riot.mount(document.body.appendChild(document.createElement('x-view')));
 	};
 }

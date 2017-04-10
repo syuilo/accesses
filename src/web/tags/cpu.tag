@@ -1,5 +1,5 @@
-<accesses-cpu>
-	<span><i class="fa fa-microchip"></i>CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }% <accesses-meter ref="meter" max={ 1 } /></span>
+<x-cpu>
+	<span><i class="fa fa-microchip"></i>CPU: { usage != null ? (usage * 100).toFixed(1) : '-' }% <x-meter ref="meter" max={ 1 } /></span>
 
 	<style>
 		:scope
@@ -35,4 +35,4 @@
 			});
 		};
 	</script>
-</accesses-cpu>
+</x-cpu>

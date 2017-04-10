@@ -8,4 +8,6 @@ require('./disk.tag');
 require('./node.tag');
 require('./inspector.tag');
 require('./inspector-window.tag');
+require('./detail.tag');
+require('./detail-window.tag');
 require('./window.tag');

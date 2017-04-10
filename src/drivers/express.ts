@@ -8,12 +8,12 @@ const proxyaddr = require('proxy-addr');
 import Core from '../core';
 
 export default (core: Core) => (req: Request, res: Response, next) => {
-	const remoteaddr = proxyaddr(req, () => true);
+	const ip = proxyaddr(req, () => true);
 
 	const ctx = core.capture({
 		date: new Date(),
 		url: `${req.protocol}://${req.hostname}${req.originalUrl}`,
-		remoteaddr: remoteaddr,
+		ip: ip,
 		httpVersion: req.httpVersion,
 		method: req.method,
 		headers: req.headers

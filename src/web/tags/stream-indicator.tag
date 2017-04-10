@@ -1,4 +1,4 @@
-<accesses-stream-indicator>
+<x-stream-indicator>
 	<p if={ stream.state == 'initializing' }>
 		<i class="fa fa-spinner fa-spin"></i>
 		<span>Connecting...</span>
@@ -67,4 +67,4 @@
 			});
 		});
 	</script>
-</accesses-stream-indicator>
+</x-stream-indicator>

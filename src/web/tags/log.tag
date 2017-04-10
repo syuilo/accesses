@@ -1,4 +1,4 @@
-<accesses-log>
+<x-log>
 	<table>
 		<thead>
 			<tr>
@@ -12,7 +12,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr each={ logs } tabindex="-1" id={ id } class={ intercepted: intercepted } onclick={ showlog } oncontextmenu={ logContextmenu }>
+			<tr each={ logs } tabindex="-1" id={ id } class={ intercepted: intercepted } ondblclick={ showlog } oncontextmenu={ logContextmenu }>
 				<td class="date" title={ date }>{ date }</td>
 				<td class="method { method.toLowerCase() }" title={ method }>{ method }</td>
 				<td class="host" title={ _url.hostname }>{ _url.hostname }</td>
@@ -22,7 +22,7 @@
 					<span class="hash" if={ _url.hash }>{ _url.hash }</span>
 				</td>
 				<td class="ua" title={ headers['user-agent'] }>{ headers['user-agent'] || '' }</td>
-				<td class="ip" title={ remoteaddr } style="color:{ fg } !important"><span style="background:{ bg }">{ remoteaddr }</span></td>
+				<td class="ip" title={ ip } style="color:{ fg } !important"><span style="background:{ bg }">{ ip }</span></td>
 				<td class="res" title={ !res ? '(pending)' : res.status + ' (' + res.time.toFixed(3) + 'ms)' }>
 					<span class="pending" if={ !res }>(pending)</span>
 					<span class="status { res.kind }" if={ res }>{ res.status }</span>
@@ -215,7 +215,7 @@
 		};
 
 		this.appendRequest = req => {
-			const random = seedrandom(req.remoteaddr);
+			const random = seedrandom(req.ip);
 			const r = Math.floor(random() * 255);
 			const g = Math.floor(random() * 255);
 			const b = Math.floor(random() * 255);
@@ -248,22 +248,19 @@
 		};
 
 		this.showlog = e => {
-			console.log(e.item);
+			riot.mount(document.body.appendChild(document.createElement('x-detail-window')), {
+				req: e.item
+			});
 		};
 
 		this.logContextmenu = e => {
 			e.preventDefault();
-			/*this.stream.send({
-				action: 'intercept-response',
-				id: e.item.id,
-				res: 'THIS REQUEST IS INTERCEPTED'
-			});*/
 
-			riot.mount(document.body.appendChild(document.createElement('accesses-inspector-window')), {
+			riot.mount(document.body.appendChild(document.createElement('x-inspector-window')), {
 				req: e.item
 			});
 		};
 
 	</script>
 
-</accesses-log>
+</x-log>

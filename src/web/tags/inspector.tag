@@ -1,4 +1,4 @@
-<accesses-inspector>
+<x-inspector>
 	<p>{ req.url }</p>
 	<button onclick={ drop }>Drop</button>
 	<button onclick={ bypass }>Bypass</button>
@@ -64,4 +64,4 @@
 			});
 		};
 	</script>
-</accesses-inspector>
+</x-inspector>
