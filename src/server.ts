@@ -87,21 +87,15 @@ export type Response = {
 	time: number;
 };
 
-export default class Server extends EventEmitter {
+export default class Server {
 	private wss: ws.Server;
 
 	public intercepting: boolean = false;
-
-	public event: EventEmitter;
 
 	// Drivers
 	public express: any;
 
 	constructor(opts: Options) {
-		super();
-
-		this.event = event;
-
 		const app = express();
 		app.disable('x-powered-by');
 		app.set('view engine', 'pug')
@@ -143,12 +137,10 @@ export default class Server extends EventEmitter {
 
 		event.on('start-intercept', () => {
 			this.intercepting = true;
-			this.emit('start-intercept');
 		});
 
 		event.on('end-intercept', () => {
 			this.intercepting = false;
-			this.emit('end-intercept');
 		});
 
 		if (cluster.isMaster) {
@@ -189,21 +181,21 @@ export default class Server extends EventEmitter {
 		ctx.once('done', res => {
 			event.emit('response', res);
 
-			this.event.removeListener('intercept-response', ctx.response);
-			this.event.removeListener(`intercept-response.${id}`, ctx.response);
-			this.event.removeListener('intercept-bypass', ctx.bypass);
-			this.event.removeListener(`intercept-bypass.${id}`, ctx.bypass);
-			this.event.removeListener('end-intercept', ctx.bypass);
+			event.removeListener('intercept-response', ctx.response);
+			event.removeListener(`intercept-response.${id}`, ctx.response);
+			event.removeListener('intercept-bypass', ctx.bypass);
+			event.removeListener(`intercept-bypass.${id}`, ctx.bypass);
+			event.removeListener('end-intercept', ctx.bypass);
 		});
 
 		if (this.intercepting) {
 			req.intercepted = true;
 
-			this.event.once('intercept-response', ctx.response);
-			this.event.once(`intercept-response.${id}`, ctx.response);
-			this.event.once('intercept-bypass', ctx.bypass);
-			this.event.once(`intercept-bypass.${id}`, ctx.bypass);
-			this.event.once('end-intercept', ctx.bypass);
+			event.once('intercept-response', ctx.response);
+			event.once(`intercept-response.${id}`, ctx.response);
+			event.once('intercept-bypass', ctx.bypass);
+			event.once(`intercept-bypass.${id}`, ctx.bypass);
+			event.once('end-intercept', ctx.bypass);
 		} else {
 			bypass();
 		}
