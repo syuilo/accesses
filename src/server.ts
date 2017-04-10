@@ -7,8 +7,9 @@ import * as cluster from 'cluster';
 import * as http from 'http';
 import * as ws from 'ws';
 import * as express from 'express';
-import event from './event';
+import * as uuid from 'uuid';
 
+import event from './event';
 import reportStatus from './report-status';
 import autobind from './helpers/autobind';
 import demo from './demo';
@@ -181,18 +182,35 @@ export default class Server extends EventEmitter {
 	 * @param req リクエスト
 	 */
 	@autobind
-	public captureRequest(req: Request): void {
-		req.intercepted = this.intercepting;
-		event.emit('request', req);
-	}
+	public capture(req: any, response: Function, bypass: Function): Context {
+		const ctx = new Context(response, bypass);
+		const id = ctx.id;
 
-	/**
-	 * レスポンスを捕捉します
-	 * @param res レスポンス
-	 */
-	@autobind
-	public captureResponse(res: Response): void {
-		event.emit('response', res);
+		ctx.once('done', res => {
+			event.emit('response', res);
+
+			this.event.removeListener('intercept-response', ctx.response);
+			this.event.removeListener(`intercept-response.${id}`, ctx.response);
+			this.event.removeListener('intercept-bypass', ctx.bypass);
+			this.event.removeListener(`intercept-bypass.${id}`, ctx.bypass);
+			this.event.removeListener('end-intercept', ctx.bypass);
+		});
+
+		if (this.intercepting) {
+			req.intercepted = true;
+
+			this.event.once('intercept-response', ctx.response);
+			this.event.once(`intercept-response.${id}`, ctx.response);
+			this.event.once('intercept-bypass', ctx.bypass);
+			this.event.once(`intercept-bypass.${id}`, ctx.bypass);
+			this.event.once('end-intercept', ctx.bypass);
+		} else {
+			bypass();
+		}
+
+		event.emit('request', req);
+
+		return ctx;
 	}
 
 	/**
@@ -219,5 +237,41 @@ export default class Server extends EventEmitter {
 	@autobind
 	public bypass(id: string) {
 		event.emit(`intercept-bypass.${id}`);
+	}
+}
+
+export class Context extends EventEmitter {
+	public id: string;
+	public startAt: [number, number];
+
+	public response: Function;
+	public bypass: Function;
+
+	constructor(response: Function, bypass: Function) {
+		super();
+
+		this.id = uuid.v4();
+		this.startAt = process.hrtime();
+
+		this.response = response;
+		this.bypass = bypass;
+	}
+
+	public done(status: number): Response {
+		const start = this.startAt;
+		const end = process.hrtime();
+
+		// calculate diff
+		const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
+
+		const res: Response = {
+			id: this.id,
+			status: status,
+			time: ms
+		};
+
+		this.emit('done', res);
+
+		return res;
 	}
 }
