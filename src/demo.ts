@@ -2,19 +2,14 @@
  * demonstration
  */
 
-import * as uuid from 'uuid';
 import Server from './server';
 
 export default (server: Server) => {
 	createFakeSession();
 
 	function createFakeSession() {
-		const id = uuid.v4();
 
-		const startAt = process.hrtime();
-
-		server.captureRequest({
-			id: id,
+		const ctx = server.capture({
 			date: new Date(),
 			url: choice(
 				'http://example.com',
@@ -41,19 +36,10 @@ export default (server: Server) => {
 					'Mozilla/5.0 (iPad; CPU OS 10_3_2 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko)'
 				)
 			}
-		});
+		}, null, null);
 
 		setTimeout(() => {
-			const endAt = process.hrtime();
-
-			// calculate diff
-			const ms = (endAt[0] - startAt[0]) * 1e3 + (endAt[1] - startAt[1]) * 1e-6;
-
-			server.captureResponse({
-				id: id,
-				status: choice(200, 200, 200, 201, 204, 304, 404, 500),
-				time: ms
-			});
+			ctx.done(choice(200, 200, 200, 201, 204, 304, 404, 500));
 		}, Math.random() * 2000);
 
 		setTimeout(createFakeSession, Math.random() * 2000);
