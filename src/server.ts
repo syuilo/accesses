@@ -67,24 +67,27 @@ export default class Server {
 
 	@autobind
 	private onStreamConnected(client) {
-		client.on('message', message => {
-			const msg = JSON.parse(message);
-			switch (msg.action) {
-				case 'intercept':
-					if (this.core.intercepting) {
-						this.core.unintercept();
-					} else {
-						this.core.intercept();
-					}
-					break;
-				case 'response':
-					this.core.interceptResponse(msg.status, msg.body, msg.id);
-					break;
-				case 'bypass':
-					this.core.bypass(msg.id);
-					break;
-			}
-		});
+		client.on('message', this.onStreamMessage);
+	}
+
+	@autobind
+	private onStreamMessage(message) {
+		const msg = JSON.parse(message);
+		switch (msg.action) {
+			case 'intercept':
+				if (this.core.intercepting) {
+					this.core.unintercept();
+				} else {
+					this.core.intercept();
+				}
+				break;
+			case 'response':
+				this.core.interceptResponse(msg.status, msg.body, msg.id);
+				break;
+			case 'bypass':
+				this.core.bypass(msg.id);
+				break;
+		}
 	}
 
 	/**
