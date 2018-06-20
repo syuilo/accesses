@@ -7,7 +7,7 @@
 [![][david-dev-badge]][david-dev-link]
 [![][mit-badge]][mit]
 
-[![NPM](https://nodei.co/npm/accesses.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/accesses/)
+[![NPM](https://nodei.co/npm/accesses.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/accesses/) [![Greenkeeper badge](https://badges.greenkeeper.io/syuilo/accesses.svg)](https://greenkeeper.io/)
 
 A graphical access logger for [Node](https://github.com/nodejs/node).
 
